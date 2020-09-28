@@ -1,4 +1,5 @@
 greeting() {
+clear
 echo -e "${success}
 
     ____  ______        _ __               __                     

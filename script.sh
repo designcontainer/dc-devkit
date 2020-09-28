@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Meta
-version="0.1.5"
+version="0.1.6"
 prefix="clone"
 
 # Script
@@ -33,7 +33,6 @@ setup
 
 elif [ "$1" == "" ] || [ "$1" == "-h" ] || [ "$1" == "help" ]
 then
-clear
 help
 
 elif [ "$1" == "-v" ] || [ "$1" == "version" ]
