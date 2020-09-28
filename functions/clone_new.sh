@@ -18,7 +18,7 @@ ${end}"
 
 read -e installname
 
-ssh_status=$(ssh -o BatchMode=yes -o ConnectTimeout=5 $installname@$installname.ssh.wpengine.net echo ok 2>&1)
+ssh_status=$(ssh -o BatchMode=yes -o ConnectTimeout=1 $installname@$installname.ssh.wpengine.net echo ok 2>&1)
 
 if [[ $ssh_status == ok ]] ; then
 
@@ -34,7 +34,7 @@ if [[ $sitename == "" ]] ; then
 sitename=$installname
 fi
 
-check_if_exist() {
+check_if_folder_exist() {
 DIR="$PWD/$sitename"
 if [ -d "$DIR" ]; then
 echo -e "${error}
@@ -42,18 +42,24 @@ Site name is already in use.
 Please choose another one:
 ${end}"
 read -e sitename
-check_if_exist
+check_if_folder_exist
 fi
 }
-check_if_exist
+check_if_folder_exist
+
+clear
+echo -e "${warning}
+Cloning install: $installname
+This may take a couple of minutes ...
+${end}"
 
 # Start cloning
 git_clone
 install_wpcore
 add_htaccess
-add_host
-add_vhost
 setup_database
+add_vhost
+add_host
 
 clear
 echo -e "

@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Meta
-version="0.1.0"
+version="0.1.2"
 prefix="clone"
 
 # Script
@@ -18,7 +18,6 @@ success='\033[0;32m'
 cmd='\033[0;36m'
 end='\033[0m'
 greprc=$?
-
 
 # Functions
 for file in $functions/* ; do

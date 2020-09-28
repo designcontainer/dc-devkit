@@ -1,4 +1,3 @@
 git_clone() {
-    clear
-    git clone git@git.wpengine.com:production/$installname.git $sitename
+    git clone git@git.wpengine.com:production/$installname.git $sitename >/dev/null 2>&1
 }

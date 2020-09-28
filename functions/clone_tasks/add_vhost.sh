@@ -1,5 +1,4 @@
 add_vhost() {
-clear
 echo '' >> $vhosts_path
 echo '<VirtualHost *:80>' >> $vhosts_path
 echo 'ServerName '$sitename'.test' >> $vhosts_path

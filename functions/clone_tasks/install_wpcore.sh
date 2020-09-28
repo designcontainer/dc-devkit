@@ -1,5 +1,4 @@
 install_wpcore() {
-    clear
     # install fresh wp core
     cd $sitename
     curl -O https://wordpress.org/latest.tar.gz > /dev/null 2>&1
@@ -24,10 +23,10 @@ install_wpcore() {
     # Remove plugins folder and get them from ssh instead, cause vendor files are not in git sometimes
     cd wp-content
     rm -rf plugins
-    scp -r $installname@$installname.ssh.wpengine.net:/sites/$installname/wp-content/plugins $PWD
+    scp -r $installname@$installname.ssh.wpengine.net:/sites/$installname/wp-content/plugins $PWD >/dev/null 2>&1
     cd ..
 
     # Add to commit
-    git add --all
-    git commit -m "Automated commit from dc site cloner 👨‍🔧"
+    git add --all >/dev/null 2>&1
+    git commit -m "Automated commit from dc site cloner 👨‍🔧" >/dev/null 2>&1
 }

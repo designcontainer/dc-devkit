@@ -1,5 +1,4 @@
 add_htaccess() {
-clear
 echo "
 # BEGIN WordPress
 
