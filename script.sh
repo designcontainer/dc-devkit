@@ -39,6 +39,10 @@ elif [ "$1" == "-v" ] || [ "$1" == "version" ]
 then
 version
 
+elif [ "$1" == "update" ]
+then
+update
+
 elif [ "$1" == "new" ]
 then
 clone_new
