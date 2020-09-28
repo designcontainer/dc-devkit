@@ -1,6 +1,6 @@
 update() {
 if cd $scriptpath; git diff-index --quiet HEAD --; then
-echo -e "${warning}No new version of DC Site Cloner avaiable ...${end}"
+echo -e "${success}✅ DC Site Cloner is already up to date!${end}"
 else
 echo -e "${warning}Updating devkit ...${end}"
 cd $scriptpath; git pull https://github.com/designcontainer/dc-site-cloner.git >/dev/null 2>&1
