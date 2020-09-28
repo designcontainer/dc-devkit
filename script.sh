@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Meta
-version="0.1.3"
+version="0.1.5"
 prefix="clone"
 
 # Script
@@ -26,8 +26,6 @@ for file in $functions/* ; do
   fi
 done
 
-clear
-
 # Function call
 if [ "$setup" == "false" ] || [ "$1" == "setup" ]
 then
@@ -35,6 +33,7 @@ setup
 
 elif [ "$1" == "" ] || [ "$1" == "-h" ] || [ "$1" == "help" ]
 then
+clear
 help
 
 elif [ "$1" == "-v" ] || [ "$1" == "version" ]
@@ -47,7 +46,7 @@ update
 
 elif [ "$1" == "new" ]
 then
-clone_new
+clone_new $2
 
 else
 echo -e "

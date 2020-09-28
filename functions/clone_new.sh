@@ -12,13 +12,18 @@ fi
 done
 
 clear
+
+if [ -n "$1" ]; then
+installname=$1
+else
 echo -e "${warning}
 Enter the WP Engine install name to get started:
 ${end}"
-
 read -e installname
+fi
 
-ssh_status=$(ssh -o BatchMode=yes -o ConnectTimeout=1 $installname@$installname.ssh.wpengine.net echo ok 2>&1)
+
+ssh_status=$(ssh -oStrictHostKeyChecking=no -o BatchMode=yes -o ConnectTimeout=5 $installname@$installname.ssh.wpengine.net echo ok 2>&1)
 
 if [[ $ssh_status == ok ]] ; then
 

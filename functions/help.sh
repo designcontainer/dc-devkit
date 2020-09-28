@@ -16,7 +16,7 @@ Usage:
     ${prefix} [command]
 
 Basic Commands:
-    ${cmd}new${end}                                 Clone a new site from WP Engine
+    ${cmd}new <wpe install name>${end}                                 Clone a new site from WP Engine
 
 Development:
     ${cmd}restart${end}                             Restarts MAMP - not working
