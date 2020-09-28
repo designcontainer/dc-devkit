@@ -55,7 +55,7 @@ check_if_folder_exist
 clear
 echo -e "${warning}
 Cloning install: $installname
-This may take a couple of minutes ...
+This may take a minute ...
 ${end}"
 
 # Start cloning

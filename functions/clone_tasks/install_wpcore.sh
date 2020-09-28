@@ -23,7 +23,7 @@ install_wpcore() {
     # Remove plugins folder and get them from ssh instead, cause vendor files are not in git sometimes
     cd wp-content
     rm -rf plugins
-    scp -r $installname@$installname.ssh.wpengine.net:/sites/$installname/wp-content/plugins $PWD >/dev/null 2>&1
+    rsync -e "ssh" -r $installname@$installname.ssh.wpengine.net:/sites/$installname/wp-content/plugins $PWD >/dev/null 2>&1
     cd ..
 
     # Add to commit
