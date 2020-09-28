@@ -26,6 +26,8 @@ for file in $functions/* ; do
   fi
 done
 
+clear
+
 # Function call
 if [ "$setup" == "false" ] || [ "$1" == "setup" ]
 then
