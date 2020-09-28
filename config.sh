@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-setup="true"
+setup="false"
 
 # database
 sqluser="root"
