@@ -62,6 +62,7 @@ ${end}"
 git_clone
 install_wpcore
 add_htaccess
+add_config_file
 setup_database
 add_vhost
 add_host

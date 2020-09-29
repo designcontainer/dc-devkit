@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Meta
-version="0.2.0"
+version="0.3.0"
 prefix="clone"
 
 # Script
@@ -46,6 +46,10 @@ update
 elif [ "$1" == "new" ]
 then
 clone_new $2
+
+elif [ "$1" == "database" ]
+then
+fetch_database
 
 else
 echo -e "

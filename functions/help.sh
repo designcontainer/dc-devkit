@@ -17,6 +17,7 @@ Usage:
 
 Basic Commands:
     ${cmd}new <wpe install name>${end}              Clone a new site from WP Engine
+    ${cmd}database${end}                            Fetch a new database form server for an existing local install
 
 Development:
     ${cmd}restart${end}                             Restarts MAMP - not working
