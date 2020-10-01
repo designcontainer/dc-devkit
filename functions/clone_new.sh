@@ -16,19 +16,29 @@ clear
 if [ -n "$1" ]; then
 installname=$1
 else
-echo -e "${warning}
+echo -e "${cmd}
 Enter the WP Engine install name to get started:
 ${end}"
 read -e installname
 fi
 
 
+echo -e "${warning}
+Verifying permissions ...
+This will only take a couple of seconds.
+${end}"
+
 ssh_status=$(ssh -oStrictHostKeyChecking=no -o BatchMode=yes -o ConnectTimeout=5 $installname@$installname.ssh.wpengine.net echo ok 2>&1)
+
+# Try again if SSH doesn't come back ok. This is used for first time connections
+if [[ $ssh_status != ok ]] ; then
+    ssh_status=$(ssh -oStrictHostKeyChecking=no -o BatchMode=yes -o ConnectTimeout=5 $installname@$installname.ssh.wpengine.net echo ok 2>&1)
+fi
 
 if [[ $ssh_status == ok ]] ; then
 
 clear 
-echo -e "${warning}
+echo -e "${cmd}
 Enter you desired local install name 
 or press enter to use the same name as on WP Engine:
 ${end}"
@@ -73,6 +83,7 @@ fi
 
 add_htaccess
 add_config_file
+git_commit
 
 if [ "$multisite" = false ] ; then
 # We set these in function setup_multisite if the site is a multisite
@@ -85,7 +96,7 @@ if [ "$multisite" = true ] ; then
 delim=""
 joined_domains=""
 for item in "${new_ms_domains[@]}"; do
-item = "https://$item"
+item = "http://$item"
 joined_domains="$joined_domains$delim$item"
 delim="\n"
 done

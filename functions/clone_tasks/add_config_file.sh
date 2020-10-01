@@ -17,5 +17,6 @@ fi
 if [ !grep -R "site_cloner.conf" .gitignore ]; then
 echo "" >> .gitignore
 echo "site_cloner.conf" >> .gitignore
+echo "db-exports/" >> .gitignore
 fi
 }

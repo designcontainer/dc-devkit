@@ -14,6 +14,7 @@ done < <($mysql_path -N -u$sqluser -p$sqlpass -D $sitename -h localhost -e "SELE
 for i in "${domains[@]}"; do
 
 autodomain=${i%*.*}
+autodomain=$(sed -e 's/www.//' <<<"$autodomain")
 
 echo -e "${cmd}
 Type in your desired local domain for domain: ${end}${success}$i${end}${cmd}
@@ -27,8 +28,8 @@ mudomain="$autodomain.test"
 fi
 
 # Replace domains
-sed -i '' -e "s/$i/$mudomain/g" mysql.sql
 sed -i '' -e "s/www.$i/$mudomain/g" mysql.sql
+sed -i '' -e "s/$i/$mudomain/g" mysql.sql
 
 # Add the new desired domains to an array, this will be used in the conf file
 new_ms_domains+=("$mudomain")

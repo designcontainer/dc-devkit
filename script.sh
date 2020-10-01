@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Meta
-version="0.4.0"
+version="0.5.0"
 prefix="clone"
 
 # Script
@@ -49,7 +49,20 @@ clone_new $2
 
 elif [ "$1" == "database" ]
 then
-fetch_database
+  if [ "$2" == "local" ]
+  then
+  export_database
+  else
+  fetch_database
+  fi
+
+elif [ "$1" == "hosts" ]
+then
+open /private/etc/hosts
+
+elif [ "$1" == "vhosts" ]
+then
+open /Applications/MAMP/conf/apache/extra/httpd-vhosts.conf
 
 else
 echo -e "

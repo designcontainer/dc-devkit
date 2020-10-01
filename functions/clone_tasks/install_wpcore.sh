@@ -29,8 +29,4 @@ install_wpcore() {
     rm -rf plugins
     rsync -e "ssh" -r $installname@$installname.ssh.wpengine.net:/sites/$installname/wp-content/plugins $PWD >/dev/null 2>&1
     cd ..
-
-    # Add to commit
-    git add --all >/dev/null 2>&1
-    git commit -m "Automated commit from dc site cloner 🤖" >/dev/null 2>&1
 }
