@@ -85,6 +85,7 @@ if [ "$multisite" = true ] ; then
 delim=""
 joined_domains=""
 for item in "${new_ms_domains[@]}"; do
+item = "https://$item"
 joined_domains="$joined_domains$delim$item"
 delim="\n"
 done
@@ -98,7 +99,7 @@ $joined_domains
 ${end}"
 else
 echo -e "
-${success}✅ $sitename.test is setup and ready to use!${end}"
+${success}✅ http://$sitename.test is setup and ready to use!${end}"
 fi
 
 else
