@@ -1,6 +1,5 @@
 install_wpcore() {
     # install fresh wp core
-    cd $sitename
     curl -O https://wordpress.org/latest.tar.gz > /dev/null 2>&1
     tar -zxvf latest.tar.gz > /dev/null 2>&1
     cd wordpress
@@ -12,10 +11,15 @@ install_wpcore() {
     perl -pi -e "s/database_name_here/$sitename/g" wp-config.php
     perl -pi -e "s/username_here/$sqluser/g" wp-config.php
     perl -pi -e "s/password_here/$sqlpass/g" wp-config.php
+
+    # Define a siteurl if it's not a multisite
+    if [ "$multisite" = false ] ; then
     echo "" >> wp-config.php
     echo "/** Change the site URL */" >> wp-config.php
     echo "define( 'WP_HOME', 'http://$sitename.test' );" >> wp-config.php
     echo "define( 'WP_SITEURL', 'http://$sitename.test' );" >> wp-config.php
+    fi
+
     mkdir wp-content/uploads
     chmod 777 wp-content/uploads
     rm latest.tar.gz

@@ -60,16 +60,46 @@ ${end}"
 
 # Start cloning
 git_clone
+setup_database
 install_wpcore
+
+# Check if the site is a multisite
+if [ $($mysql_path -u$sqluser -p$sqlpass -D $sitename -h localhost -sse "SELECT count(*) FROM wp_blogs;" 2>/dev/null ) -gt 0 2>/dev/null ]; then
+    multisite=true
+    setup_multisite
+else
+    multisite=false
+fi
+
 add_htaccess
 add_config_file
-setup_database
+
+if [ "$multisite" = false ] ; then
+# We set these in function setup_multisite if the site is a multisite
 add_vhost
 add_host
+fi
+
+# Comma separated list of mu domains
+if [ "$multisite" = true ] ; then
+delim=""
+joined_domains=""
+for item in "${new_ms_domains[@]}"; do
+joined_domains="$joined_domains$delim$item"
+delim="\n"
+done
+fi
 
 clear
+if [ "$multisite" = true ] ; then
+echo -e "
+${success}✅ Sites are setup and ready to use on the following domains:
+$joined_domains
+${end}"
+else
 echo -e "
 ${success}✅ $sitename.test is setup and ready to use!${end}"
+fi
 
 else
 echo -e "${error}

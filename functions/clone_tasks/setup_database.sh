@@ -1,5 +1,5 @@
 setup_database() {
-clear
+cd $sitename
 
 # Create a new database
 $mysql_path -u$sqluser -p$sqlpass -e "CREATE DATABASE $sitename" 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
@@ -10,5 +10,7 @@ rsync -e "ssh" $installname@$installname.ssh.wpengine.net:/sites/$installname/wp
 # Import database
 $mysql_path -u$sqluser -p$sqlpass $sitename < mysql.sql 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
 
-rm mysql.sql
+if [ "$multisite" = false ] ; then
+    rm mysql.sql
+fi
 }
