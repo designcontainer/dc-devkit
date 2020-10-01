@@ -24,6 +24,40 @@ ${end}"
 # Get live database
 rsync -e "ssh" $installname@$installname.ssh.wpengine.net:/sites/$installname/wp-content/mysql.sql $PWD >/dev/null 2>&1
 
+if [ "$multisite" = true ] ; then
+    # Drop old database
+    $mysql_path -u$sqluser -p$sqlpass -e "DROP DATABASE $sitename" 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
+
+    # Create a new database
+    $mysql_path -u$sqluser -p$sqlpass -e "CREATE DATABASE $sitename" 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
+
+    # Import database
+    $mysql_path -u$sqluser -p$sqlpass $sitename < mysql.sql 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
+
+    # Fetch domains from database
+    while IFS= read -r line; do
+        domains+=("$line")
+    done < <($mysql_path -N -u$sqluser -p$sqlpass -D $sitename -h localhost -e "SELECT  domain FROM wp_blogs LIMIT 100;" 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure.")
+
+    # Add index numbers to arrays in domains from conf file
+    for i in "${!new_ms_domains[@]}"; do
+        : #Do nothing
+    done
+
+    # Replace domains
+    index=0
+    for i in "${domains[@]}"; do
+        sed -i '' -e "s/$i/${new_ms_domains[$index]}/g" mysql.sql
+        sed -i '' -e "s/www.$i/${new_ms_domains[$index]}/g" mysql.sql
+
+        # Increment index
+        index=$((index+1))
+    done
+
+    # Replace https with http
+    sed -i '' -e "s/https:\/\//http:\/\//g" mysql.sql
+fi
+
 # Drop old database
 $mysql_path -u$sqluser -p$sqlpass -e "DROP DATABASE $sitename" 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
 

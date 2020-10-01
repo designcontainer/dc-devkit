@@ -76,7 +76,7 @@ rm mysql.sql
 # Add the defines to get a multisite working in wp-config.php
 NL=$'\\\n'
 target="<?php"
-ms_defines="<?php${NL}${NL}define( 'MULTISITE', true );${NL}define( 'SUBDOMAIN_INSTALL', true );${NL}define( 'DOMAIN_CURRENT_SITE', '$first_mudomain' );${NL}define( 'PATH_CURRENT_SITE', '\/' );${NL}define( 'SITE_ID_CURRENT_SITE', 1 );${NL}define( 'BLOG_ID_CURRENT_SITE', 1 );${NL}"
+ms_defines="<?php${NL}${NL}define( 'MULTISITE', true );${NL}define( 'SUBDOMAIN_INSTALL', true );${NL}define( 'DOMAIN_CURRENT_SITE', '$first_mudomain' );${NL}define( 'PATH_CURRENT_SITE', '\/' );${NL}define( 'SITE_ID_CURRENT_SITE', 1 );${NL}define( 'BLOG_ID_CURRENT_SITE', 1 );${NL}define( 'COOKIE_DOMAIN', \$_SERVER['HTTP_HOST'] );${NL}"
 
 # sed -i '' -e "s~$target~i $ms_defines" wp-config.php
 sed -i '' -e "s/$target/$ms_defines/" wp-config.php
