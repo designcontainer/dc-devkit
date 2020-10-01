@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Meta
-version="0.5.0"
+version="0.5.1"
 prefix="clone"
 
 # Script
@@ -28,8 +28,7 @@ done
 
 # Check if config file has been created
 if [ ! -d "$config" ]; then
-echo '
-#!/usr/bin/env bash
+echo '#!/usr/bin/env bash
 setup="false"
 
 # database
