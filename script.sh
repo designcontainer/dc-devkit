@@ -26,6 +26,19 @@ for file in $functions/* ; do
   fi
 done
 
+# Check if config file has been created
+if [ ! -d "$config" ]; then
+echo '
+#!/usr/bin/env bash
+setup="false"
+
+# database
+sqluser="root"
+sqlpass="root"
+' > $config
+setup
+fi
+
 # Function call
 if [ "$setup" == "false" ] || [ "$1" == "setup" ]
 then
