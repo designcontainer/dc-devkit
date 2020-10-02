@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Meta
-version="0.5.1"
+version="0.5.3"
 prefix="clone"
 
 # Script
@@ -27,7 +27,7 @@ for file in $functions/* ; do
 done
 
 # Check if config file has been created
-if [ ! -d "$config" ]; then
+if [ ! -f "$config" ]; then
 echo '#!/usr/bin/env bash
 setup="false"
 
