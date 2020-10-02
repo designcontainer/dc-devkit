@@ -71,16 +71,19 @@ ${end}"
 # Start cloning
 git_clone
 setup_database
-install_wpcore
 
-# Check if the site is a multisite
+# Check if the site is a multisite and create variables
 if [ $($mysql_path -u$sqluser -p$sqlpass -D $sitename -h localhost -sse "SELECT count(*) FROM wp_blogs;" 2>/dev/null ) -gt 0 2>/dev/null ]; then
     multisite=true
-    setup_multisite
 else
     multisite=false
 fi
 
+install_wpcore
+
+if [ "$multisite" = true ] ; then
+    setup_multisite
+fi
 add_htaccess
 add_config_file
 git_commit

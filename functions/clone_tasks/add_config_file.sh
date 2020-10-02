@@ -14,7 +14,7 @@ echo "multisite=false
 fi
 
 # Add site_cloner.conf to gitignore if it does not exist
-if [ !grep -R "site_cloner.conf" .gitignore ]; then
+if ! grep -q "site_cloner.conf" .gitignore; then
 echo "" >> .gitignore
 echo "site_cloner.conf" >> .gitignore
 echo "db-exports/" >> .gitignore
