@@ -1,7 +1,6 @@
 add_config_file() {
 echo "installname=$installname
 sitename=$sitename
-new_ms_domains=(${new_ms_domains[@]})
 " > site_cloner.conf
 
 if [ "$multisite" = true ] ; then
