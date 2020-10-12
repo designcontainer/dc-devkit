@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Meta
-version="0.5.5"
+version="0.6.0"
 prefix="clone"
 
 # Script
@@ -75,6 +75,10 @@ open /private/etc/hosts
 elif [ "$1" == "vhosts" ]
 then
 open /Applications/MAMP/conf/apache/extra/httpd-vhosts.conf
+
+elif [ "$1" == "testfile" ]
+then
+testfile
 
 else
 echo -e "

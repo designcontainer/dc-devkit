@@ -4,7 +4,9 @@ sitename=$sitename
 " > site_cloner.conf
 
 if [ "$multisite" = true ] ; then
-echo "multisite=true
+echo "# Multisite rules:
+multisite=true
+main_ms_domain=$main_ms_domain
 new_ms_domains=(${new_ms_domains[@]})
 " >> site_cloner.conf
 else 
