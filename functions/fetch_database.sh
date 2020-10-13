@@ -23,6 +23,9 @@ fetch_database() {
         # Get live database
         rsync -e "ssh" $installname@$installname.ssh.wpengine.net:/sites/$installname/wp-content/mysql.sql $PWD >/dev/null 2>&1
         
+        # Replace https with http
+        sed -i '' -e "s/https:\/\//http:\/\//g" mysql.sql
+        
         if [ "$multisite" = true ] ; then
             # Drop old database
             $mysql_path -u$sqluser -p$sqlpass -e "DROP DATABASE $sitename" 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."

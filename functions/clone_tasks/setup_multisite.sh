@@ -98,9 +98,6 @@ setup_multisite() {
 
     done # Loop done
 
-    # Replace https with http
-    sed -i '' -e "s/https:\/\//http:\/\//g" mysql.sql
-
     # Drop existing database
     $mysql_path -u$sqluser -p$sqlpass -e "DROP DATABASE $sitename" 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
 
