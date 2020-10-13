@@ -21,7 +21,7 @@ export_database() {
     unixtime=$(date +%s)
     
     echo -e "${warning}Exporting database: $sitename${end}"
-    $mysqldump_path -u$sqluser -p$sqlpass $sitename > "$DIR/${sitename}_export_${unixtime}.sql"
+    $mysqldump_path -u$sqluser -p$sqlpass $sitename > "$DIR/${sitename}_export_${unixtime}.sql" 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
     
     clear
     echo -e "${success}✅ Exported: ${sitename}_export_${unixtime}.sql${end}"
