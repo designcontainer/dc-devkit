@@ -145,7 +145,7 @@ clone_new() {
     
     clear
     if [ "$multisite" = true ] ; then
-        echo -e "${success}${NL}✅ Sites are setup and ready to use on the following domains: ${NL}$joined_domains${end}"
+        echo -e "${success}✅ Sites are setup and ready to use on the following domains: ${NL}$joined_domains${end}"
     else
         echo -e "${success}✅ http://$sitename.test is setup and ready to use!${end}"
     fi
