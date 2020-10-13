@@ -20,13 +20,11 @@ export_database() {
     
     unixtime=$(date +%s)
     
-    echo -e "
-    ${warning}Exporting database: $sitename${end}"
+    echo -e "${warning}Exporting database: $sitename${end}"
     $mysqldump_path -u$sqluser -p$sqlpass $sitename > "$DIR/${sitename}_export_${unixtime}.sql"
     
     clear
-    echo -e "
-    ${success}✅ Exported: ${sitename}_export_${unixtime}.sql${end}"
+    echo -e "${success}✅ Exported: ${sitename}_export_${unixtime}.sql${end}"
     
     open -a "finder" -R "$DIR/${sitename}_export_${unixtime}.sql"
     
