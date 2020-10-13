@@ -1,8 +1,6 @@
 add_htaccess() {
-
-if [ "$multisite" = true ] ; then
-
-echo "
+    if [ "$multisite" = true ] ; then
+        echo "
 # BEGIN WordPress
 RewriteEngine On
 RewriteBase /
@@ -18,11 +16,9 @@ RewriteRule ^(wp-(content|admin|includes).*) \$1 [L]
 RewriteRule ^(.*\.php)$ \$1 [L]
 RewriteRule . index.php [L]
 # END WordPress
-" > .htaccess
-
-else
-
-echo "
+        " > .htaccess
+    else
+        echo "
 # BEGIN WordPress
 
 <IfModule mod_rewrite.c>
@@ -37,7 +33,6 @@ RewriteRule . /index.php [L]
 </IfModule>
 
 # END WordPress
-" > .htaccess
-
-fi
+        " > .htaccess
+    fi
 }

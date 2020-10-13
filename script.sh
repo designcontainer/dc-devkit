@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Meta
-version="0.6.0"
+version="0.6.1"
 prefix="clone"
 
 # Script
@@ -19,73 +19,73 @@ cmd='\033[0;36m'
 end='\033[0m'
 greprc=$?
 
+# Space
+NL=$'\\n'
+
 # Functions
 for file in $functions/* ; do
-  if [ -f "$file" ] ; then
-    . "$file"
-  fi
+    if [ -f "$file" ] ; then
+        . "$file"
+    fi
 done
 
 # Check if config file has been created
 if [ ! -f "$config" ]; then
-echo '#!/usr/bin/env bash
+    echo '#!/usr/bin/env bash
 setup="false"
 
 # database
 sqluser="root"
 sqlpass="root"
-' > $config
-setup
+    ' > $config
+    setup
 fi
 
 # Function call
 if [ "$setup" == "false" ] || [ "$1" == "setup" ]
 then
-setup
-
+    setup
+    
 elif [ "$1" == "" ] || [ "$1" == "-h" ] || [ "$1" == "help" ]
 then
-help
-
+    help
+    
 elif [ "$1" == "-v" ] || [ "$1" == "version" ]
 then
-version
-
+    version
+    
 elif [ "$1" == "update" ]
 then
-update
-
+    update
+    
 elif [ "$1" == "new" ]
 then
-clone_new $2
-
+    clone_new $2
+    
 elif [ "$1" == "database" ]
 then
-  if [ "$2" == "local" ]
-  then
-  export_database
-  else
-  fetch_database
-  fi
-
+    if [ "$2" == "local" ]
+    then
+        export_database
+    else
+        fetch_database
+    fi
+    
 elif [ "$1" == "hosts" ]
 then
-open /private/etc/hosts
-
+    open /private/etc/hosts
+    
 elif [ "$1" == "vhosts" ]
 then
-open /Applications/MAMP/conf/apache/extra/httpd-vhosts.conf
-
+    open /Applications/MAMP/conf/apache/extra/httpd-vhosts.conf
+    
 elif [ "$1" == "testfile" ]
 then
-testfile
-
+    testfile
+    
 else
-echo -e "
-${error}Command not found.
-    ${end} Try ${prefix} help
-"
-exit 1
+    echo -e "${error}Command not found.${NL}${end} Try ${prefix} help"
+    exit 1
 fi
 
 # Written by Rostislav Melkumyan 2020
