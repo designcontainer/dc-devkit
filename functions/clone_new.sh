@@ -43,7 +43,7 @@ clone_new() {
     fi
     
     if [[ ! $ssh_status == ok ]]; then
-        echo -e "${error}Cannot connect to WP Engine using the specified install name: $installname ${NL}Make sure the install exists and your SSH key is added to the server!${end}"
+        echo -e "${error}ERROR! Cannot connect to WP Engine using the specified install name: $installname ${NL}Make sure the install exists and your SSH key is added to the server!${end}"
         exit 1
     fi
     
@@ -53,14 +53,14 @@ clone_new() {
         git ls-remote "$1" CHECK_GIT_REMOTE_URL_REACHABILITY >/dev/null 2>&1
     }
     if ! git-remote-url-reachable $giturl ; then
-        echo -e "${error}Cannot connect to a repo using the specified site name: $installname ${NL}Make sure your SSH key is added to the install!${end}"
+        echo -e "${error}ERROR! Cannot connect to a repo using the specified site name: $installname ${NL}Make sure your SSH key is added to the install!${end}"
         open "https://my.wpengine.com/installs/$installname/git_push"
         exit 1
     fi
     
     # Check if git repo is empty
     if ! git ls-remote --exit-code -h "$giturl" >/dev/null 2>&1 ; then
-        echo -e "${error}Git repository for $installname appears to be empty!${end}"
+        echo -e "${error}ERROR! Git repository for $installname appears to be empty!${end}"
         exit 1
     fi
     # Done doing checks for installname

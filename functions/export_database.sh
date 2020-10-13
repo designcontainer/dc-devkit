@@ -5,7 +5,7 @@ export_database() {
     
     # Check if conf file exists
     if ! test -f "$conf" ; then
-        echo -e "${error}Site cloner configuration file not found in this directory.${end}"
+        echo -e "${error}ERROR! Site cloner configuration file not found in this directory.${end}"
         exit 1
     fi
     
