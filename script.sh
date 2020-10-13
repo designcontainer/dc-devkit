@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Meta
-version="0.6.4"
+version="0.7.0"
 prefix="clone"
 
 # Script
@@ -42,45 +42,35 @@ sqlpass="root"
 fi
 
 # Function call
-if [ "$setup" == "false" ] || [ "$1" == "setup" ]
-then
+if [ "$setup" == "false" ] || [ "$1" == "setup" ] ; then
     setup
     
-elif [ "$1" == "" ] || [ "$1" == "-h" ] || [ "$1" == "help" ]
-then
+    elif [ "$1" == "" ] || [ "$1" == "-h" ] || [ "$1" == "help" ] ; then
     help
     
-elif [ "$1" == "-v" ] || [ "$1" == "version" ]
-then
+    elif [ "$1" == "-v" ] || [ "$1" == "version" ] ; then
     version
     
-elif [ "$1" == "update" ]
-then
+    elif [ "$1" == "update" ] ; then
     update
     
-elif [ "$1" == "new" ]
-then
+    elif [ "$1" == "new" ] ; then
     clone_new $2
     
-elif [ "$1" == "database" ]
-then
-    if [ "$2" == "local" ]
-    then
+    elif [ "$1" == "database" ] ; then
+    if [ "$2" == "local" ] ; then
         export_database
     else
         fetch_database
     fi
     
-elif [ "$1" == "hosts" ]
-then
+    elif [ "$1" == "hosts" ] ; then
     open /private/etc/hosts
     
-elif [ "$1" == "vhosts" ]
-then
+    elif [ "$1" == "vhosts" ] ; then
     open /Applications/MAMP/conf/apache/extra/httpd-vhosts.conf
     
-elif [ "$1" == "testfile" ]
-then
+    elif [ "$1" == "testfile" ] ; then
     testfile
     
 else
