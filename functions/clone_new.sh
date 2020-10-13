@@ -48,14 +48,19 @@ clone_new() {
     fi
     
     # Check if you have access to git repo
+    giturl="git@git.wpengine.com:production/$installname.git"
     git-remote-url-reachable() {
         git ls-remote "$1" CHECK_GIT_REMOTE_URL_REACHABILITY >/dev/null 2>&1
     }
-    giturl="git@git.wpengine.com:production/$installname.git"
-    
     if ! git-remote-url-reachable $giturl ; then
         echo -e "${error}Cannot connect to a repo using the specified site name: $installname ${NL}Make sure your SSH key is added to the install!${end}"
         open "https://my.wpengine.com/installs/$installname/git_push"
+        exit 1
+    fi
+    
+    # Check if git repo is empty
+    if ! git ls-remote --exit-code -h "$giturl" >/dev/null 2>&1 ; then
+        echo -e "${error}Git repository for $installname appears to be empty!${end}"
         exit 1
     fi
     # Done doing checks for installname
