@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Meta
-version="0.7.4"
+version="0.8.0"
 prefix="clone"
 
 # Script
@@ -9,7 +9,9 @@ scriptpath="$(dirname $0)"
 siteconf="$(dirname $0)/site-config.tar.gz"
 functions="$(dirname $0)/functions"
 config="$scriptpath/config.sh"
+checks="$scriptpath/functions/checks.sh"
 source $config
+source $checks
 
 # Colors
 error='\033[0;31m'

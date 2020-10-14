@@ -2,13 +2,10 @@ fetch_database() {
     # Vars
     mysql_path='/Applications/MAMP/Library/bin/mysql'
     mysqldump_path='/Applications/MAMP/Library/bin/mysqldump'
-    conf=site_cloner.conf
     
-    # Check if conf file exists
-    if ! test -f "$conf" ; then
-        echo -e "${error}ERROR! Site cloner configuration file not found in this directory.${end}"
-        exit 1
-    fi
+    # Checks
+    check_mysql_connection
+    check_conf_exist
     
     source $conf
     

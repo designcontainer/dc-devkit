@@ -35,14 +35,7 @@ setup_multisite() {
             mudomain="$autodomain.test"
         fi
 
-        check_if_vhosts_exist() {
-            if grep -qF "ServerName $mudomain" $vhosts_path; then
-                echo -e "${error}A Virtual hosts domain is already set for this domain. ${NL}Please enter another local domain:${end}"
-                read -e mudomain
-                check_if_vhosts_exist
-            fi
-        }
-        check_if_vhosts_exist
+        check_vhosts_exist
 
         # Replace domains
         sed -i '' -e "s/www.$i/$mudomain/g" mysql.sql
