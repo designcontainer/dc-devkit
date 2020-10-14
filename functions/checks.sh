@@ -46,8 +46,8 @@ check_empty_git_repo() {
 }
 
 check_conf_exist() {
-    conffile=site_cloner.conf
-    if ! test -f "$conffile" ; then
+    conf=site_cloner.conf
+    if ! test -f "$conf" ; then
         echo -e "${error}ERROR! Site cloner configuration file not found in this directory.${end}"
         exit 1
     fi
