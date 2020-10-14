@@ -35,7 +35,7 @@ setup_multisite() {
             mudomain="$autodomain.test"
         fi
 
-        check_vhosts_exist
+        check_vhosts_exist_mu
 
         # Replace domains
         sed -i '' -e "s/www.$i/$mudomain/g" mysql.sql

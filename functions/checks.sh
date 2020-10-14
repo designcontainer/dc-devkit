@@ -46,7 +46,7 @@ check_empty_git_repo() {
 }
 
 check_conf_exist() {
-    conf=site_cloner.conf
+    conffile=site_cloner.conf
     if ! test -f "$conf" ; then
         echo -e "${error}ERROR! Site cloner configuration file not found in this directory.${end}"
         exit 1
@@ -75,6 +75,14 @@ check_vhosts_exist() {
     if grep -qF "ServerName $sitename.test" $vhosts_path;then
         echo -e "${error}Virtual hosts domain is already in use for this name. ${NL}Please choose another local install name:${end}"
         read -e sitename
+        check_if_vhosts_exist
+    fi
+}
+
+check_vhosts_exist_mu() {
+    if grep -qF "ServerName $mudomain" $vhosts_path; then
+        echo -e "${error}A Virtual hosts domain is already set for this domain. ${NL}Please enter another local domain:${end}"
+        read -e mudomain
         check_if_vhosts_exist
     fi
 }
