@@ -13,6 +13,9 @@ fetch_database() {
     # Replace https with http
     sed -i '' -e "s/https:\/\//http:\/\//g" mysql.sql
     
+    # Disable Passnado
+    sed -i '' -e "s/'passnado_protect','1'/'passnado_protect','0'/g" mysql.sql
+    
     if [ "$multisite" = true ] ; then
         # Drop old database
         $mysql_path -u$sqluser -p$sqlpass -e "DROP DATABASE $sitename" 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."

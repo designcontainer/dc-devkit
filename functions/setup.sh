@@ -22,7 +22,6 @@ setup() {
     sed -i .old '/setup/ s/="[^"][^"]*"/="true"/' $config
     rm $scriptpath/config.sh.old
     
-    
     echo -e "${NL}${success}✅ Site cloner setup completed!${end}"
     help
 }
