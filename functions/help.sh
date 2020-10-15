@@ -16,9 +16,7 @@ Basic Commands:
     ${cmd}wpe <page>${end}                          Open WP Engine panel for site, <help, -h> to see args
 
 Development:
-    ${cmd}restart${end}                             Restarts MAMP
-    ${cmd}start${end}                               Starts MAMP
-    ${cmd}stop${end}                                Stops MAMP
+    ${cmd}mamp${end}                                Restarts MAMP, <help, -h> to see args
     ${cmd}hosts${end}                               Opens hosts file
     ${cmd}vhosts${end}                              Opens virtual hosts file
     ${cmd}phpmyadmin${end}                          Opens local phpmyadmin

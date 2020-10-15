@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Meta
-version="0.11.2"
+version="0.11.3"
 prefix="dev"
 
 # vars
@@ -75,18 +75,8 @@ if [ "$setup" == "false" ] || [ "$1" == "setup" ] ; then
     elif [ "$1" == "wpe" ] ; then
     wpe $2
     
-    elif [ "$1" == "restart" ] ; then
-    sudo /Applications/MAMP/Library/bin/apachectl -k restart >/dev/null 2>&1
-    /Applications/MAMP/bin/startMysql.sh >/dev/null 2>&1
-    /Applications/MAMP/bin/stopMysql.sh >/dev/null 2>&1
-    
-    elif [ "$1" == "start" ] ; then
-    sudo /Applications/MAMP/Library/bin/apachectl -k start >/dev/null 2>&1
-    /Applications/MAMP/bin/startMysql.sh >/dev/null 2>&1
-    
-    elif [ "$1" == "stop" ] ; then
-    sudo /Applications/MAMP/Library/bin/apachectl -k stop >/dev/null 2>&1
-    /Applications/MAMP/bin/stopMysql.sh >/dev/null 2>&1
+    elif [ "$1" == "mamp" ] ; then
+    mamp $2
     
     elif [ "$1" == "hosts" ] ; then
     open /private/etc/hosts
