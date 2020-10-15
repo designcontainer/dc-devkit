@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Meta
-version="0.9.0"
+version="0.10.0"
 prefix="clone"
 
 # Script
@@ -65,6 +65,9 @@ if [ "$setup" == "false" ] || [ "$1" == "setup" ] ; then
     else
         fetch_database
     fi
+    
+    elif [ "$1" == "wpe" ] ; then
+    wpe $2
     
     elif [ "$1" == "hosts" ] ; then
     open /private/etc/hosts

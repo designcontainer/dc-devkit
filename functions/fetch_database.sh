@@ -8,8 +8,6 @@ fetch_database() {
     check_conf_exist
     check_confirmation_question "Are you sure you want to fetch a new database?${NL}THIS WILL OVERWRITE ALL THE EXISTING DATA IN THE CURRENT LOCAL DATABASE!!${NL}(y/n)"
     
-    source $conf
-    
     clear
     echo -e "${warning}Fetching and importing a new database${NL}This may take a minute ...${end}"
     

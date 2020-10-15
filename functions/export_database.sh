@@ -6,8 +6,6 @@ export_database() {
     check_mysql_connection
     check_conf_exist
     
-    source $conf
-    
     clear
     
     DIR="$PWD/db-exports"

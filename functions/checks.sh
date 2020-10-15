@@ -60,6 +60,7 @@ check_conf_exist() {
         echo -e "${error}ERROR! Site cloner configuration file not found in this directory.${end}"
         exit 1
     fi
+    source $conf
 }
 
 check_folder_exist() {
