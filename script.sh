@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Meta
-version="0.8.3"
+version="0.9.0"
 prefix="clone"
 
 # Script

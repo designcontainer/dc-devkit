@@ -1,3 +1,12 @@
+check_confirmation_question() {
+    clear
+    echo -e "${error}$1${end}"
+    read -e question
+    if [ ! "$question" == y ] ; then
+        exit 1
+    fi
+}
+
 check_mysql_connection() {
     $mysqladmin_path -h localhost -u$sqluser -p$sqlpass processlist > /dev/null 2>&1
     if [ $? -eq 1 ] ; then
