@@ -1,13 +1,6 @@
 help() {
     greeting
     
-    if cd $scriptpath; git diff-index --quiet HEAD --; then
-        echo -e "${success}✅ DC Site Cloner is already up to date!${end}"
-    else
-        echo -e "${warning}⚠️  There is a new version of DC Site Cloner available!${end}"
-        echo -e "    $ ${cmd}${prefix} update${end} to update."
-    fi
-    
     echo -e "
 Version:
     $version
