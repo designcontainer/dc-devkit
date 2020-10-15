@@ -1,17 +1,20 @@
 #!/bin/bash -e
 
 # Meta
-version="0.10.1"
-prefix="clone"
+version="0.11.0"
+prefix="dev"
 
-# Script
+# vars
 scriptpath="$(dirname $0)"
 siteconf="$(dirname $0)/site-config.tar.gz"
 functions="$(dirname $0)/functions"
 config="$scriptpath/config.sh"
 checks="$scriptpath/functions/checks.sh"
-source $config
-source $checks
+mysql_path='/Applications/MAMP/Library/bin/mysql'
+mysqldump_path='/Applications/MAMP/Library/bin/mysqldump'
+mysqlshow_path='/Applications/MAMP/Library/bin/mysqlshow'
+mysqladmin_path='/Applications/MAMP/Library/bin/mysqladmin'
+vhosts_path='/Applications/MAMP/conf/apache/extra/httpd-vhosts.conf'
 
 # Colors
 error='\033[0;31m'
@@ -23,6 +26,7 @@ greprc=$?
 
 # Space
 NL=$'\\n'
+
 
 # Functions
 for file in $functions/* ; do
@@ -43,6 +47,9 @@ sqlpass="root"
     setup
 fi
 
+source $config
+source $checks
+
 # Function call
 if [ "$setup" == "false" ] || [ "$1" == "setup" ] ; then
     setup
@@ -57,7 +64,10 @@ if [ "$setup" == "false" ] || [ "$1" == "setup" ] ; then
     update
     
     elif [ "$1" == "new" ] ; then
-    clone_new $2
+    new $2
+    
+    elif [ "$1" == "clone" ] ; then
+    clone $2
     
     elif [ "$1" == "database" ] ; then
     if [ "$2" == "local" ] ; then
@@ -69,11 +79,27 @@ if [ "$setup" == "false" ] || [ "$1" == "setup" ] ; then
     elif [ "$1" == "wpe" ] ; then
     wpe $2
     
+    elif [ "$1" == "restart" ] ; then
+    sudo /Applications/MAMP/Library/bin/apachectl -k restart >/dev/null 2>&1
+    /Applications/MAMP/bin/startMysql.sh >/dev/null 2>&1
+    /Applications/MAMP/bin/stopMysql.sh >/dev/null 2>&1
+    
+    elif [ "$1" == "start" ] ; then
+    sudo /Applications/MAMP/Library/bin/apachectl -k start >/dev/null 2>&1
+    /Applications/MAMP/bin/startMysql.sh >/dev/null 2>&1
+    
+    elif [ "$1" == "stop" ] ; then
+    sudo /Applications/MAMP/Library/bin/apachectl -k stop >/dev/null 2>&1
+    /Applications/MAMP/bin/stopMysql.sh >/dev/null 2>&1
+    
     elif [ "$1" == "hosts" ] ; then
     open /private/etc/hosts
     
     elif [ "$1" == "vhosts" ] ; then
     open /Applications/MAMP/conf/apache/extra/httpd-vhosts.conf
+    
+    elif [ "$1" == "phpmyadmin" ] ; then
+    open http://localhost/phpmyadmin
     
     elif [ "$1" == "testfile" ] ; then
     testfile

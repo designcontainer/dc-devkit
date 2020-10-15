@@ -2,6 +2,7 @@ wpe() {
     check_conf_exist
     
     if [ "$1" == "-h" ] || [ "$1" == "help" ] ; then
+        clear
         echo -e "
 Usage:
     ${prefix} wpe <arg>(optional)
@@ -20,6 +21,7 @@ Args:
     ${cmd}ssl${end}                                 Open SSL page in WP Engine panel
     ${cmd}utilities${end}                           Open Utilities page in WP Engine panel
     ${cmd}migrate${end}                             Open Site migration page in WP Engine panel
+    ${cmd}phpmyadmin${end}                          Open Site phpmyadmin
         "
         
         elif [ "$1" == "domains" ] ; then
@@ -54,6 +56,9 @@ Args:
         
         elif [ "$1" == "migrate" ] ; then
         open "https://my.wpengine.com/installs/$installname/migrate-my-site"
+        
+        elif [ "$1" == "phpmyadmin" ] ; then
+        open "https://my.wpengine.com/installs/$installname/phpmyadmin"
         
         elif [ "$1" == "" ] ; then
         open "https://my.wpengine.com/installs/$installname"

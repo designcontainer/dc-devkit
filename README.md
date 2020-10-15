@@ -1,10 +1,12 @@
+![CLI Screenshot](https://user-images.githubusercontent.com/25268506/96168364-e88f2f00-0f20-11eb-9e65-931595dbe198.png)
+
 # DC Site cloner
 
-A CLI that helps you setup sites from WP Engine
+A CLI that helps you setup sites from WP Engine ❤️ 💯
 
 ### To get started:
-1. Setup an alias in your bash profile:
-`alias clone="bash /Path/To/Repo/dc-site-cloner/script.sh"`
-2. Open a new terminal window
-3. Run `$ clone`
-4. Follow setup wizard
+
+1. Drag `start.sh` into your terminal
+2. Follow setup wizard 😎
+
+After setup type `dev` to use. 🎉 🙌

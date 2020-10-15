@@ -1,10 +1,5 @@
-clone_new() {
+clone() {
     # Vars
-    mysql_path='/Applications/MAMP/Library/bin/mysql'
-    mysqldump_path='/Applications/MAMP/Library/bin/mysqldump'
-    mysqlshow_path='/Applications/MAMP/Library/bin/mysqlshow'
-    mysqladmin_path='/Applications/MAMP/Library/bin/mysqladmin'
-    vhosts_path='/Applications/MAMP/conf/apache/extra/httpd-vhosts.conf'
     tasks="$(dirname $0)/functions/clone_tasks"
     
     # Tasks
@@ -77,6 +72,9 @@ clone_new() {
         add_vhost
         add_host
     fi
+    
+    # Restart MAMP Apache
+    sudo /Applications/MAMP/Library/bin/apachectl -k restart >/dev/null 2>&1
     
     # Comma separated list of mu domains
     if [ "$multisite" = true ] ; then

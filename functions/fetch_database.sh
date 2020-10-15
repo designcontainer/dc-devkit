@@ -1,8 +1,4 @@
 fetch_database() {
-    # Vars
-    mysql_path='/Applications/MAMP/Library/bin/mysql'
-    mysqldump_path='/Applications/MAMP/Library/bin/mysqldump'
-    
     # Checks
     check_mysql_connection
     check_conf_exist
