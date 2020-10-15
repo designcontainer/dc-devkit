@@ -1,14 +1,14 @@
 #!/bin/bash -e
 
 # Meta
-version="0.11.1"
+version="0.11.2"
 prefix="dev"
 
 # vars
 scriptpath="$(dirname $0)"
 siteconf="$(dirname $0)/site-config.tar.gz"
 functions="$(dirname $0)/functions"
-config="$scriptpath/config.sh"
+config="$scriptpath/config.conf"
 checks="$scriptpath/functions/checks.sh"
 mysql_path='/Applications/MAMP/Library/bin/mysql'
 mysqldump_path='/Applications/MAMP/Library/bin/mysqldump'
@@ -37,13 +37,9 @@ done
 
 # Check if config file has been created
 if [ ! -f "$config" ]; then
-    echo '#!/usr/bin/env bash
-setup="false"
-
-# database
-sqluser="root"
-sqlpass="root"
-    ' > $config
+    echo 'setup="false"' > $config
+    echo 'sqluser="root"' >> $config
+    echo 'sqlpass="root"' >> $config
     setup
 fi
 

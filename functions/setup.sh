@@ -20,7 +20,7 @@ setup() {
     
     # Marks setup ad complete
     sed -i .old '/setup/ s/="[^"][^"]*"/="true"/' $config
-    rm $scriptpath/config.sh.old
+    rm $config.old
     
     echo -e "${NL}${success}✅ Site cloner setup completed!${end}"
     help

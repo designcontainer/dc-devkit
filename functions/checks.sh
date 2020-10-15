@@ -11,7 +11,7 @@ check_mysql_connection() {
     $mysqladmin_path -h localhost -u$sqluser -p$sqlpass processlist > /dev/null 2>&1
     if [ $? -eq 1 ] ; then
         clear
-        echo -e "${error}MYSQL IS NOT RUNNING!${end}"
+        echo -e "${error}ERROR! Cannot connect to MYSQL server!${end}"
         exit 1
     fi
 }
@@ -66,7 +66,7 @@ check_conf_exist() {
 check_folder_exist() {
     DIR="$PWD/$sitename"
     if [ -d "$DIR" ]; then
-        echo -e "${error}Site name is already in use. ${NL}Please choose another one:${end}"
+        echo -e "${error}A folder with the specified site name is already in use. ${NL}Please choose another site name:${end}"
         read -e sitename
         check_folder_exist
     fi

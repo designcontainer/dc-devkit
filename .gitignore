@@ -1,4 +1,4 @@
 .DS_store
-config.sh
-config.sh.old
+config.conf
+config.conf.old
 testfile.sh
