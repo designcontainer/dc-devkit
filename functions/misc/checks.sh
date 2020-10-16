@@ -1,3 +1,5 @@
+# Common checks
+
 check_confirmation_question() {
     clear
     echo -e "${error}$1${end}"
@@ -65,59 +67,4 @@ check_conf_exist() {
         exit 1
     fi
     source $conf
-}
-
-check_folder_exist() {
-    if [[ $sitename == "" ]] ; then
-        sitename=$installname
-    fi
-    if [[ $sitename == "" ]] ; then
-        clear
-        exit 1
-    fi
-    DIR="$PWD/$sitename"
-    if [ -d "$DIR" ]; then
-        echo -e "${error}A folder with the specified site name is already in use. ${NL}Please choose another site name:${end}"
-        read -e sitename
-        check_folder_exist
-    fi
-}
-
-check_db_exist() {
-    if [[ $sitename == "" ]] ; then
-        sitename=$installname
-    fi
-    if [[ $sitename == "" ]] ; then
-        clear
-        exit 1
-    fi
-    db_check=$($mysqlshow_path -u$sqluser -p$sqlpass "$sitename" > /dev/null 2>&1 && echo exists 2>&1)
-    if [[ $db_check == exists ]]; then
-        echo -e "${error}Database is already in use for this name.${NL}Please choose another local install name:${end}"
-        read -e sitename
-        check_db_exist
-    fi
-}
-
-check_vhosts_exist() {
-    if [[ $sitename == "" ]] ; then
-        sitename=$installname
-    fi
-    if [[ $sitename == "" ]] ; then
-        clear
-        exit 1
-    fi
-    if grep -qF "ServerName $sitename.test" $vhosts_path;then
-        echo -e "${error}Virtual hosts domain is already in use for this name. ${NL}Please choose another local install name:${end}"
-        read -e sitename
-        check_vhosts_exist
-    fi
-}
-
-check_vhosts_exist_ms() {
-    if grep -qF "ServerName $new_domain" $vhosts_path; then
-        echo -e "${error}A Virtual hosts domain is already set for this domain. ${NL}Please enter another local domain:${end}"
-        read -e new_domain
-        check_vhosts_exist_ms
-    fi
 }

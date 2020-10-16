@@ -35,6 +35,14 @@ setup_multisite() {
             new_domain="$autodomain"
         fi
 
+        # Check if new_domain already exist
+        check_vhosts_exist_ms() {
+            if grep -qF "ServerName $new_domain" $vhosts_path; then
+                echo -e "${error}A Virtual hosts domain is already set for this domain. ${NL}Please enter another local domain:${end}"
+                read -e new_domain
+                check_vhosts_exist_ms
+            fi
+        }
         check_vhosts_exist_ms
 
         # Replace domains
