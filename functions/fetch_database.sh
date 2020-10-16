@@ -44,7 +44,7 @@ fetch_database() {
         done < <(perl -w $scriptpath/functions/clone_tasks/sort_ms_domains.pl ${domains[@]})
         
         # Add index numbers to arrays in domains from conf file
-        for i in "${!new_ms_domains[@]}"; do
+        for domain in "${!new_ms_domains[@]}"; do
             : #Do nothing
         done
         
@@ -54,9 +54,9 @@ fetch_database() {
         
         # Replace domains
         index=0
-        for i in "${domains_sorted[@]}"; do
-            sed -i '' -e "s/www.$i/${new_ms_domains[$index]}/g" mysql.sql
-            sed -i '' -e "s/$i/${new_ms_domains[$index]}/g" mysql.sql
+        for domain in "${domains_sorted[@]}"; do
+            sed -i '' -e "s/www.$domain/${new_ms_domains[$index]}/g" mysql.sql
+            sed -i '' -e "s/$domain/${new_ms_domains[$index]}/g" mysql.sql
             
             # Increment index
             index=$((index+1))

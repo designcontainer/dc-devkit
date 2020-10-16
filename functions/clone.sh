@@ -1,9 +1,9 @@
 clone() {
     # Vars
-    tasks="$(dirname $0)/functions/clone_tasks"
+    clone_tasks="$(dirname $0)/functions/clone_tasks"
     
     # Tasks
-    for file in $tasks/*.sh ; do
+    for file in $clone_tasks/*.sh ; do
         if [ -f "$file" ] ; then
             . "$file"
         fi
@@ -46,7 +46,7 @@ clone() {
     
     # Start cloning
     clear
-    echo -e "${warning}${NL}Cloning install: $installname ${NL}This may take a minute ...${end}"
+    echo -e "${warning}${NL}Cloning install: $installname into $sitename ${NL}This may take a minute ...${end}"
     
     git_clone
     setup_database
@@ -80,9 +80,9 @@ clone() {
     if [ "$multisite" = true ] ; then
         delim=""
         joined_domains=""
-        for item in "${new_ms_domains[@]}"; do
-            item="http://$item"
-            joined_domains="$joined_domains$delim$item"
+        for domain in "${new_ms_domains[@]}"; do
+            domain="http://$domain"
+            joined_domains="$joined_domains$delim$domain"
             delim="\n"
         done
     fi

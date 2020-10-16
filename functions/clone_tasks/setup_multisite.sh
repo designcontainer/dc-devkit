@@ -19,55 +19,55 @@ setup_multisite() {
     # Start adding hosts
     # Start adding vhosts
     # Start replacing domains in sql file
-    for i in "${domains_sorted[@]}"; do
+    for domain in "${domains_sorted[@]}"; do
 
         # Remove www from domains
-        i=$(sed -e 's/www.//' <<<"$i")
+        domain=$(sed -e 's/www.//' <<<"$domain")
 
         # Set an auto domain
-        autodomain=${i%*.*}
+        autodomain="${domain%*.*}.test"
 
-        echo -e "${cmd}${NL}Type in your desired local domain for domain: ${end}${success}$i${end}${cmd}${NL}Press enter for suggested: $autodomain.test${end}"
-        read -e mudomain
+        echo -e "${cmd}${NL}Type in your desired local domain for domain: ${end}${success}$domain${end}${cmd}${NL}Press enter for suggested: $autodomain${end}"
+        read -e new_domain
 
         # Set domain to auto domain if no domain written
-        if [[ $mudomain == "" ]] ; then
-            mudomain="$autodomain.test"
+        if [[ $new_domain == "" ]] ; then
+            new_domain="$autodomain"
         fi
 
-        check_vhosts_exist_mu
+        check_vhosts_exist_ms
 
         # Replace domains
-        sed -i '' -e "s/www.$i/$mudomain/g" mysql.sql
-        sed -i '' -e "s/$i/$mudomain/g" mysql.sql
+        sed -i '' -e "s/www.$domain/$new_domain/g" mysql.sql
+        sed -i '' -e "s/$domain/$new_domain/g" mysql.sql
 
         # Add the new desired domains to an array, this will be used in the conf file
-        new_ms_domains+=("$mudomain")
+        new_ms_domains+=("$new_domain")
 
         # Add the first domain of array to var
-        if [ ! -n "$first_mudomain" ]; then
-            first_mudomain=$mudomain
+        if [ ! -n "$first_new_domain" ]; then
+            first_new_domain=$new_domain
         fi
 
         # Check if domain matches up with the first domain in array from database
         # This domain will be used as main domain in wp config
-        if [[ $i == $domains ]] || [[ "www.$i" == $domains ]] ; then
+        if [[ $domain == $domains ]] || [[ "www.$domain" == $domains ]] ; then
             # Add the defines to get a multisite working in wp-config.php
             SNL=$'\\\n'
             target="<?php"
-            ms_defines="<?php${SNL}${SNL}define( 'MULTISITE', true );${SNL}define( 'SUBDOMAIN_INSTALL', true );${SNL}define( 'DOMAIN_CURRENT_SITE', '$mudomain' );${SNL}define( 'PATH_CURRENT_SITE', '\/' );${SNL}define( 'SITE_ID_CURRENT_SITE', 1 );${SNL}define( 'BLOG_ID_CURRENT_SITE', 1 );${SNL}define( 'COOKIE_DOMAIN', \$_SERVER['HTTP_HOST'] );${SNL}"
+            ms_defines="<?php${SNL}${SNL}define( 'MULTISITE', true );${SNL}define( 'SUBDOMAIN_INSTALL', true );${SNL}define( 'DOMAIN_CURRENT_SITE', '$new_domain' );${SNL}define( 'PATH_CURRENT_SITE', '\/' );${SNL}define( 'SITE_ID_CURRENT_SITE', 1 );${SNL}define( 'BLOG_ID_CURRENT_SITE', 1 );${SNL}define( 'COOKIE_DOMAIN', \$_SERVER['HTTP_HOST'] );${SNL}"
 
             # sed -i '' -e "s~$target~i $ms_defines" wp-config.php
             sed -i '' -e "s/$target/$ms_defines/" wp-config.php
 
             # Add a variable so we know that this is the main domain
-            main_ms_domain=$mudomain
+            main_ms_domain=$new_domain
         fi
 
         # Add vhost
         echo '' >> $vhosts_path
         echo '<VirtualHost *:80>' >> $vhosts_path
-        echo 'ServerName '$mudomain >> $vhosts_path
+        echo 'ServerName '$new_domain >> $vhosts_path
         echo 'DocumentRoot "'$PWD'"' >> $vhosts_path
         echo '    <Directory "'$PWD'">' >> $vhosts_path
         echo '        Options FollowSymLinks' >> $vhosts_path
@@ -87,7 +87,7 @@ setup_multisite() {
             echo -e "${warning}${NL}Password needed to modify the hosts file${end}"
             hostspw=true
         fi
-        echo "127.0.0.1    $mudomain" | sudo tee -a /private/etc/hosts > /dev/null
+        echo "127.0.0.1    $new_domain" | sudo tee -a /private/etc/hosts > /dev/null
 
     done # Loop done
 

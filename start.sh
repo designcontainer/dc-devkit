@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Meta
-version="0.11.3"
+version="0.12.0"
 prefix="dev"
 
 # vars
@@ -9,7 +9,6 @@ scriptpath="$(dirname $0)"
 siteconf="$(dirname $0)/site-config.tar.gz"
 functions="$(dirname $0)/functions"
 config="$scriptpath/config.conf"
-checks="$scriptpath/functions/checks.sh"
 mysql_path='/Applications/MAMP/Library/bin/mysql'
 mysqldump_path='/Applications/MAMP/Library/bin/mysqldump'
 mysqlshow_path='/Applications/MAMP/Library/bin/mysqlshow'
@@ -27,9 +26,13 @@ greprc=$?
 # Space
 NL=$'\\n'
 
-
 # Functions
-for file in $functions/* ; do
+for file in $functions/*.sh ; do
+    if [ -f "$file" ] ; then
+        . "$file"
+    fi
+done
+for file in $functions/*/*.sh ; do
     if [ -f "$file" ] ; then
         . "$file"
     fi
@@ -44,7 +47,6 @@ if [ ! -f "$config" ]; then
 fi
 
 source $config
-source $checks
 
 # Function call
 if [ "$setup" == "false" ] || [ "$1" == "setup" ] ; then

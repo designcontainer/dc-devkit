@@ -17,13 +17,17 @@ check_mysql_connection() {
 }
 
 check_access_ssh() {
+    # Exit if empty
+    if [[ $installname == "" ]] ; then
+        clear
+        exit 1
+    fi
     # Check if you have access to ssh
     ssh_status=$(ssh -oStrictHostKeyChecking=no -o BatchMode=yes -o ConnectTimeout=5 $installname@$installname.ssh.wpengine.net echo ok 2>&1)
     # Try again if SSH doesn't come back ok. This is used for first time connections
-    if [[ $ssh_status != ok ]] ; then
+    if [[ ! $ssh_status == ok ]] ; then
         ssh_status=$(ssh -oStrictHostKeyChecking=no -o BatchMode=yes -o ConnectTimeout=5 $installname@$installname.ssh.wpengine.net echo ok 2>&1)
     fi
-    
     if [[ ! $ssh_status == ok ]]; then
         clear
         echo -e "${error}ERROR! Cannot connect to WP Engine using the specified install name: $installname ${NL}Make sure the install exists and your SSH key is added to the server!${end}"
@@ -64,6 +68,13 @@ check_conf_exist() {
 }
 
 check_folder_exist() {
+    if [[ $sitename == "" ]] ; then
+        sitename=$installname
+    fi
+    if [[ $sitename == "" ]] ; then
+        clear
+        exit 1
+    fi
     DIR="$PWD/$sitename"
     if [ -d "$DIR" ]; then
         echo -e "${error}A folder with the specified site name is already in use. ${NL}Please choose another site name:${end}"
@@ -73,6 +84,13 @@ check_folder_exist() {
 }
 
 check_db_exist() {
+    if [[ $sitename == "" ]] ; then
+        sitename=$installname
+    fi
+    if [[ $sitename == "" ]] ; then
+        clear
+        exit 1
+    fi
     db_check=$($mysqlshow_path -u$sqluser -p$sqlpass "$sitename" > /dev/null 2>&1 && echo exists 2>&1)
     if [[ $db_check == exists ]]; then
         echo -e "${error}Database is already in use for this name.${NL}Please choose another local install name:${end}"
@@ -82,17 +100,24 @@ check_db_exist() {
 }
 
 check_vhosts_exist() {
+    if [[ $sitename == "" ]] ; then
+        sitename=$installname
+    fi
+    if [[ $sitename == "" ]] ; then
+        clear
+        exit 1
+    fi
     if grep -qF "ServerName $sitename.test" $vhosts_path;then
         echo -e "${error}Virtual hosts domain is already in use for this name. ${NL}Please choose another local install name:${end}"
         read -e sitename
-        check_if_vhosts_exist
+        check_vhosts_exist
     fi
 }
 
-check_vhosts_exist_mu() {
-    if grep -qF "ServerName $mudomain" $vhosts_path; then
+check_vhosts_exist_ms() {
+    if grep -qF "ServerName $new_domain" $vhosts_path; then
         echo -e "${error}A Virtual hosts domain is already set for this domain. ${NL}Please enter another local domain:${end}"
-        read -e mudomain
-        check_if_vhosts_exist
+        read -e new_domain
+        check_vhosts_exist_ms
     fi
 }

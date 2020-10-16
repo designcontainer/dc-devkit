@@ -7,7 +7,6 @@ setup() {
     bash_profile_path="/Users/$USER/.bash_profile"
     if ! grep -qF "alias $prefix" $bash_profile_path ; then
         printf "${NL}alias $prefix=\"bash $scriptpath/start.sh\"" >> $bash_profile_path
-        source $bash_profile_path
     fi
     
     echo -e "SQL username:"
@@ -22,6 +21,7 @@ setup() {
     sed -i .old '/setup/ s/="[^"][^"]*"/="true"/' $config
     rm $config.old
     
+    source $bash_profile_path
     echo -e "${NL}${success}✅ Site cloner setup completed!${end}"
     help
 }
