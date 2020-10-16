@@ -28,8 +28,8 @@ Args:
         elif [ "$1" == "restart" ] || [ "$1" == "" ] ; then
         echo -e "${warning}Restarting MAMP ...${end}"
         sudo /Applications/MAMP/Library/bin/apachectl -k restart >/dev/null 2>&1
-        /Applications/MAMP/bin/startMysql.sh >/dev/null 2>&1
         /Applications/MAMP/bin/stopMysql.sh >/dev/null 2>&1
+        /Applications/MAMP/bin/startMysql.sh >/dev/null 2>&1
         echo -e "${success}✅ Done!${end}"
         
     else

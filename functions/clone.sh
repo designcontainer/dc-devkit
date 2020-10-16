@@ -35,10 +35,6 @@ clone() {
     
     read -e sitename
     
-    if [[ $sitename == "" ]] ; then
-        sitename=$installname
-    fi
-    
     # Checks for choice of sitename
     check_folder_exist() {
         if [[ $sitename == "" ]] ; then
