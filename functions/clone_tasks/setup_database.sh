@@ -16,11 +16,6 @@ setup_database() {
     # Import database
     $mysql_path -u$sqluser -p$sqlpass $sitename < mysql.sql 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
     
-    # Replace domain when imported if the site is not a multisite. Multisites gets this step done at another stage
-    if [ "$multisite" = false ] ; then
-        $mysql_path -N -u$sqluser -p$sqlpass -D $sitename -h localhost -e "UPDATE wp_options SET option_value = 'http://$sitename.test' WHERE option_name = 'home' OR option_name = 'siteurl'" 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
-    fi
-    
     # Delete Search WP tables if they exist, because they are causing conflicts on import
     drop_swp_statement=$($mysql_path -N -u$sqluser -p$sqlpass -D $sitename -h localhost -e "
 SELECT CONCAT( 'DROP TABLE ', GROUP_CONCAT(table_name) , ';' )

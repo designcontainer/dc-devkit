@@ -9,6 +9,7 @@ Usage:
     ${prefix} [command]
 
 Basic Commands:
+    ${cmd}-o, open${end}                Opens site in browser from folder
     ${cmd}new <site name>${end}                     Create a blank Wordpress install with DC skeleton theme
     ${cmd}clone <wpe install name>${end}            Clone a new site from WP Engine
     ${cmd}database${end}                            Fetch a new database form server for an existing local install

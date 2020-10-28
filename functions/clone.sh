@@ -107,7 +107,10 @@ clone() {
     
     if [ "$multisite" = true ] ; then
         setup_multisite
+    else
+        replace_urls
     fi
+    
     add_htaccess
     add_config_file
     git_commit

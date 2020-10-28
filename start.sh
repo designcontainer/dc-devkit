@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Meta
-version="0.13.0"
+version="0.14.0"
 prefix="dev"
 
 # vars
@@ -60,6 +60,9 @@ if [ "$setup" == "false" ] || [ "$1" == "setup" ] ; then
     
     elif [ "$1" == "update" ] ; then
     update
+    
+    elif [ "$1" == "-o" ] || [ "$1" == "open" ] ; then
+    open
     
     elif [ "$1" == "new" ] ; then
     new $2
