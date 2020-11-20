@@ -12,8 +12,7 @@ Basic Commands:
     ${cmd}-o, open${end}                            Opens site in browser from folder
     ${cmd}new <site name>${end}                     Create a blank Wordpress install with DC skeleton theme
     ${cmd}clone <wpe install name>${end}            Clone a new site from WP Engine
-    ${cmd}database${end}                            Fetch a new database from server for an existing local install
-    ${cmd}database local${end}                      Export the current local database
+    ${cmd}db, database <arg>${end}                  Fetch or export databases
     ${cmd}wpe <page>${end}                          Open WP Engine panel for site, <help, -h> to see args
 
 Development:

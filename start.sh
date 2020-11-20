@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Meta
-version="0.14.2"
+version="0.15.0"
 prefix="dev"
 
 # vars
@@ -70,12 +70,8 @@ if [ "$setup" == "false" ] || [ "$1" == "setup" ] ; then
     elif [ "$1" == "clone" ] ; then
     clone $2
     
-    elif [ "$1" == "database" ] ; then
-    if [ "$2" == "local" ] ; then
-        export_database
-    else
-        fetch_database
-    fi
+    elif [ "$1" == "db" ] || [ "$1" == "database" ] ; then
+    database $2
     
     elif [ "$1" == "wpe" ] ; then
     wpe $2

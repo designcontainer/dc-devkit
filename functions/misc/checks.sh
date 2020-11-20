@@ -61,10 +61,15 @@ check_empty_git_repo() {
 }
 
 check_conf_exist() {
+    # Check if config file exists nearby
     conf=site_cloner.conf
-    if ! test -f "$conf" ; then
+    if [ -f "$conf" ]; then
+        source "${PWD%/}/$conf"
+        elif [ "$PWD" = / ]; then
         echo -e "${error}ERROR! Site cloner configuration file not found in this directory.${end}"
         exit 1
+    else
+        cd ..
+        check_conf_exist
     fi
-    source $conf
 }

@@ -8,7 +8,9 @@ fetch_database() {
     echo -e "${warning}Fetching and importing a new database${NL}This may take a minute ...${end}"
     
     # Get live database
-    rsync -e "ssh" $installname@$installname.ssh.wpengine.net:/sites/$installname/wp-content/mysql.sql $PWD >/dev/null 2>&1
+    ssh -t $installname@$installname.ssh.wpengine.net "wp db export sites/$installname/mysql.sql" >/dev/null 2>&1
+    rsync -e "ssh" $installname@$installname.ssh.wpengine.net:/sites/$installname/mysql.sql $PWD >/dev/null 2>&1
+    ssh -t $installname@$installname.ssh.wpengine.net "rm sites/$installname/mysql.sql" >/dev/null 2>&1
     
     # Replace https with http
     sed -i '' -e "s/https:\/\//http:\/\//g" mysql.sql
