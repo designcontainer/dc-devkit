@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Meta
-version="0.15.0"
+version="0.16.0"
 prefix="dev"
 
 # vars
@@ -73,8 +73,11 @@ if [ "$setup" == "false" ] || [ "$1" == "setup" ] ; then
     elif [ "$1" == "db" ] || [ "$1" == "database" ] ; then
     database $2
     
-    elif [ "$1" == "wpe" ] ; then
+    elif [ "$1" == "-w" ] || [ "$1" == "wpe" ] ; then
     wpe $2
+    
+    elif [ "$1" == "-t" ] || [ "$1" == "test" ] ; then
+    test_site
     
     elif [ "$1" == "mamp" ] ; then
     mamp $2
@@ -92,7 +95,7 @@ if [ "$setup" == "false" ] || [ "$1" == "setup" ] ; then
     testfile
     
 else
-    echo -e "${error}Command not found.${NL}${end} Try ${prefix} help"
+    echo -e "${error}Command not found.${NL}${end}Try ${prefix} help"
     exit 1
 fi
 
