@@ -19,7 +19,7 @@ Args:
     ${cmd}sftp${end}                                Open SFTP users page in WP Engine panel
     ${cmd}git${end}                                 Open GIT push page in WP Engine panel
     ${cmd}ssl${end}                                 Open SSL page in WP Engine panel
-    ${cmd}utilities${end}                           Open Utilities page in WP Engine panel
+    ${cmd}util, utilities${end}                           Open Utilities page in WP Engine panel
     ${cmd}migrate${end}                             Open Site migration page in WP Engine panel
     ${cmd}phpmyadmin${end}                          Open Site phpmyadmin
         "
@@ -51,7 +51,7 @@ Args:
         elif [ "$1" == "ssl" ] ; then
         open "https://my.wpengine.com/installs/$installname/ssl_certificates"
         
-        elif [ "$1" == "utilities" ] ; then
+        elif [ "$1" == "util" ] || [ "$1" == "utilities" ] ; then
         open "https://my.wpengine.com/installs/$installname/utilities"
         
         elif [ "$1" == "migrate" ] ; then

@@ -62,14 +62,21 @@ check_empty_git_repo() {
 
 check_conf_exist() {
     # Check if config file exists nearby
-    conf=site_cloner.conf
-    if [ -f "$conf" ]; then
-        source "${PWD%/}/$conf"
+    if [ -f "$devkit_conf" ]; then
+        source "${PWD%/}/$devkit_conf"
         elif [ "$PWD" = / ]; then
         echo -e "${error}ERROR! Site cloner configuration file not found in this directory.${end}"
         exit 1
     else
         cd ..
         check_conf_exist
+    fi
+}
+
+check_wp_cli_installed() {
+    # Check if WP Cli is installed
+    if ! type -P wp &>/dev/null; then
+        echo -e "${error}ERROR! WP CLI not installed. Please install WP CLI before proceeding.${end}"
+        exit 1
     fi
 }

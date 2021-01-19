@@ -5,7 +5,7 @@ export_database() {
     
     clear
     
-    DIR="$PWD/db-exports"
+    DIR="$PWD/.devkit/db-exports"
     if [ ! -d "$DIR" ]; then
         mkdir db-exports
     fi

@@ -12,9 +12,6 @@ setup_multisite() {
         domains_sorted+=("$line")
     done < <(perl -w $scriptpath/functions/clone_tasks/sort_ms_domains.pl ${domains[@]})
 
-    # Export the database again so we can modify it further
-    $mysqldump_path -u$sqluser -p$sqlpass $sitename > mysql.sql 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
-
     # Start asking for domains
     # Start adding hosts
     # Start adding vhosts
@@ -46,8 +43,8 @@ setup_multisite() {
         check_vhosts_exist_ms
 
         # Replace domains
-        sed -i '' -e "s/www.$domain/$new_domain/g" mysql.sql
-        sed -i '' -e "s/$domain/$new_domain/g" mysql.sql
+        wp search-replace "www.$domain" "$new_domain" --all-tables --precise --quiet > /dev/null 2>&1
+        wp search-replace "$domain" "$new_domain" --all-tables --precise --quiet > /dev/null 2>&1
 
         # Add the new desired domains to an array, this will be used in the conf file
         new_ms_domains+=("$new_domain")
@@ -73,21 +70,21 @@ setup_multisite() {
         fi
 
         # Add vhost
-        echo '' >> $vhosts_path
-        echo '<VirtualHost *:80>' >> $vhosts_path
-        echo 'ServerName '$new_domain >> $vhosts_path
-        echo 'DocumentRoot "'$PWD'"' >> $vhosts_path
-        echo '    <Directory "'$PWD'">' >> $vhosts_path
-        echo '        Options FollowSymLinks' >> $vhosts_path
-        echo '        AllowOverride None' >> $vhosts_path
-        echo '    </Directory>' >> $vhosts_path
-        echo '    <Directory "'$PWD'">' >> $vhosts_path
-        echo '        Options Indexes FollowSymLinks MultiViews' >> $vhosts_path
-        echo '        AllowOverride All' >> $vhosts_path
-        echo '        Order allow,deny' >> $vhosts_path
-        echo '        allow from all' >> $vhosts_path
-        echo '    </Directory>' >> $vhosts_path
-        echo '</VirtualHost>' >> $vhosts_path
+        echo '<VirtualHost *:80>' >> $vhosts_conf
+        echo 'ServerName '$new_domain >> $vhosts_conf
+        echo 'DocumentRoot "'$PWD'"' >> $vhosts_conf
+        echo '    <Directory "'$PWD'">' >> $vhosts_conf
+        echo '        Options FollowSymLinks' >> $vhosts_conf
+        echo '        AllowOverride None' >> $vhosts_conf
+        echo '    </Directory>' >> $vhosts_conf
+        echo '    <Directory "'$PWD'">' >> $vhosts_conf
+        echo '        Options Indexes FollowSymLinks MultiViews' >> $vhosts_conf
+        echo '        AllowOverride All' >> $vhosts_conf
+        echo '        Order allow,deny' >> $vhosts_conf
+        echo '        allow from all' >> $vhosts_conf
+        echo '    </Directory>' >> $vhosts_conf
+        echo '</VirtualHost>' >> $vhosts_conf
+        echo '' >> $vhosts_conf
 
         # Add desired domain to hosts
         # Message for password promt, will show on first domain only
@@ -99,15 +96,8 @@ setup_multisite() {
 
     done # Loop done
 
-    # Drop existing database
-    $mysql_path -u$sqluser -p$sqlpass -e "DROP DATABASE $sitename" 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
-
-    # Create a new database
-    $mysql_path -u$sqluser -p$sqlpass -e "CREATE DATABASE $sitename" 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
-
-    # Import edited database
-    $mysql_path -u$sqluser -p$sqlpass $sitename < mysql.sql 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
-    # Delete the sql file from site folder
-    rm mysql.sql
+    # Replace https with http
+    wp search-replace "https://" "http://" --all-tables --precise  > /dev/null
+    echo "Include ${PWD}/${vhosts_conf}" >> $vhosts_path
 
 }

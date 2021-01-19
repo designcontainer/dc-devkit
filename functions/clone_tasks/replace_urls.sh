@@ -1,4 +1,15 @@
 replace_urls() {
-    # Replace domain when imported if the site is not a multisite. Multisites gets this step done at another stage
-    $mysql_path -N -u$sqluser -p$sqlpass -D $sitename -h localhost -e "UPDATE wp_options SET option_value = 'http://$sitename.test' WHERE option_name = 'home' OR option_name = 'siteurl'" 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
+    # Get current siteurl
+    siteurl=$(wp option get siteurl)
+    # Strip http and https from siteurl
+    siteurl=`echo "$siteurl" | sed 's~http[s]*://~~g'`
+    
+    # Replace all occurences of current siteurl with test url
+    wp search-replace "www.$siteurl" "$sitename.test" --all-tables --precise --quiet > /dev/null 2>&1
+    wp search-replace "$siteurl" "$sitename.test" --all-tables --precise --quiet > /dev/null 2>&1
+    # Replace all occurences of wpengine urls
+    wp search-replace "$installname.wpengine.com" "$sitename.test" --all-tables --precise --quiet > /dev/null 2>&1
+    
+    # Replace https with http
+    wp search-replace "https://" "http://" --all-tables --precise --quiet > /dev/null 2>&1
 }

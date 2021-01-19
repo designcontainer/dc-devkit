@@ -1,5 +1,6 @@
 fetch_database() {
     # Checks
+    check_wp_cli_installed
     check_mysql_connection
     check_conf_exist
     check_confirmation_question "Are you sure you want to fetch a new database?${NL}THIS WILL OVERWRITE ALL THE EXISTING DATA IN THE CURRENT LOCAL DATABASE!!${NL}(y/n)"
@@ -12,29 +13,30 @@ fetch_database() {
     rsync -e "ssh" $installname@$installname.ssh.wpengine.net:/sites/$installname/mysql.sql $PWD >/dev/null 2>&1
     ssh -t $installname@$installname.ssh.wpengine.net "rm sites/$installname/mysql.sql" >/dev/null 2>&1
     
-    # Replace https with http
-    sed -i '' -e "s/https:\/\//http:\/\//g" mysql.sql
-    
     # Disable Passnado
     sed -i '' -e "s/'passnado_protect','1'/'passnado_protect','0'/g" mysql.sql
     
-    if [ "$multisite" = true ] ; then
-        # Drop old database
-        $mysql_path -u$sqluser -p$sqlpass -e "DROP DATABASE $sitename" 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
-        
-        # Create a new database
-        $mysql_path -u$sqluser -p$sqlpass -e "CREATE DATABASE $sitename" 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
-        
-        # Import database
-        $mysql_path -u$sqluser -p$sqlpass $sitename < mysql.sql 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
-        
-        # Delete Search WP tables if they exist, because they are causing conflicts on import
-        drop_swp_statement=$($mysql_path -N -u$sqluser -p$sqlpass -D $sitename -h localhost -e "
+    
+    # Drop old database
+    $mysql_path -u$sqluser -p$sqlpass -e "DROP DATABASE $sitename" 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
+    
+    # Create a new database
+    $mysql_path -u$sqluser -p$sqlpass -e "CREATE DATABASE $sitename" 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
+    
+    # Import database
+    $mysql_path -u$sqluser -p$sqlpass $sitename < mysql.sql 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
+    
+    # Replace https with http
+    wp search-replace "https://" "http://" --all-tables --precise --quiet > /dev/null 2>&1
+    
+    # Delete Search WP tables if they exist, because they are causing conflicts on import
+    drop_swp_statement=$($mysql_path -N -u$sqluser -p$sqlpass -D $sitename -h localhost -e "
     SELECT CONCAT( 'DROP TABLE ', GROUP_CONCAT(table_name) , ';' )
-        AS statement FROM information_schema.tables
-        WHERE table_schema = '$sitename' AND table_name LIKE '%_swp_%'" 2>/dev/null)
-        $mysql_path -N -u$sqluser -p$sqlpass -D $sitename -h localhost -e "$drop_swp_statement" 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
-        
+    AS statement FROM information_schema.tables
+    WHERE table_schema = '$sitename' AND table_name LIKE '%_swp_%'" 2>/dev/null)
+    $mysql_path -N -u$sqluser -p$sqlpass -D $sitename -h localhost -e "$drop_swp_statement" 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
+    
+    if [ "$multisite" = true ] ; then
         # Fetch domains from database
         while IFS= read -r line; do
             domains+=("$line")
@@ -57,28 +59,14 @@ fetch_database() {
         # Replace domains
         index=0
         for domain in "${domains_sorted[@]}"; do
-            sed -i '' -e "s/www.$domain/${new_ms_domains[$index]}/g" mysql.sql
-            sed -i '' -e "s/$domain/${new_ms_domains[$index]}/g" mysql.sql
+            wp search-replace "www.$domain" "${new_ms_domains[$index]}" --all-tables --precise --quiet > /dev/null 2>&1
+            wp search-replace "$domain" "${new_ms_domains[$index]}" --all-tables --precise --quiet > /dev/null 2>&1
             
             # Increment index
             index=$((index+1))
         done
-        
-        # Replace https with http
-        sed -i '' -e "s/https:\/\//http:\/\//g" mysql.sql
-    fi
-    
-    # Drop old database
-    $mysql_path -u$sqluser -p$sqlpass -e "DROP DATABASE $sitename" 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
-    
-    # Create a new database
-    $mysql_path -u$sqluser -p$sqlpass -e "CREATE DATABASE $sitename" 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
-    
-    # Import database
-    $mysql_path -u$sqluser -p$sqlpass $sitename < mysql.sql 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
-    
-    # Replace domain when imported if the site is not a multisite. Multisites gets this step done at another stage
-    if [ "$multisite" = false ] ; then
+    else
+        # Replace domain when imported if the site is not a multisite.
         $mysql_path -N -u$sqluser -p$sqlpass -D $sitename -h localhost -e "UPDATE wp_options SET option_value = 'http://$sitename.test' WHERE option_name = 'home' OR option_name = 'siteurl'" 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
     fi
     

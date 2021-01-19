@@ -1,18 +1,19 @@
 #!/bin/bash -e
 
 # Meta
-version="0.16.1"
+version="0.17.0"
 prefix="dev"
 
 # vars
 scriptpath="$(dirname $0)"
-siteconf="$(dirname $0)/site-config.tar.gz"
 functions="$(dirname $0)/functions"
 config="$scriptpath/config.conf"
 mysql_path='/Applications/MAMP/Library/bin/mysql'
 mysqldump_path='/Applications/MAMP/Library/bin/mysqldump'
 mysqlshow_path='/Applications/MAMP/Library/bin/mysqlshow'
 mysqladmin_path='/Applications/MAMP/Library/bin/mysqladmin'
+devkit_conf=".devkit/site_cloner.conf"
+vhosts_conf='.devkit/vhosts.conf'
 vhosts_path='/Applications/MAMP/conf/apache/extra/httpd-vhosts.conf'
 
 # Colors

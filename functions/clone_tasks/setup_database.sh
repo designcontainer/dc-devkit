@@ -1,13 +1,8 @@
 setup_database() {
-    cd $sitename
-    
     # Get live database
     ssh -t $installname@$installname.ssh.wpengine.net "wp db export sites/$installname/mysql.sql" >/dev/null 2>&1
     rsync -e "ssh" $installname@$installname.ssh.wpengine.net:/sites/$installname/mysql.sql $PWD >/dev/null 2>&1
     ssh -t $installname@$installname.ssh.wpengine.net "rm sites/$installname/mysql.sql" >/dev/null 2>&1
-    
-    # Replace https with http
-    sed -i '' -e "s/https:\/\//http:\/\//g" mysql.sql
     
     # Disable Passnado
     sed -i '' -e "s/'passnado_protect','1'/'passnado_protect','0'/g" mysql.sql

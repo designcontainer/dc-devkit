@@ -3,6 +3,8 @@ add_htaccess() {
         echo "
 # BEGIN WordPress
 RewriteEngine On
+RewriteCond %{REQUEST_URI} ^/wp-content/uploads/[^\/]*/.*$
+RewriteRule ^(.*)$ http://$installname.wpengine.com/\$1 [QSA,L]
 RewriteBase /
 RewriteRule ^index\.php$ - [L]
 

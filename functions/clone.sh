@@ -9,6 +9,8 @@ clone() {
         fi
     done
     
+    # Check if WP CLI is installed
+    check_wp_cli_installed
     # Check if can connect to mysql, exit if not
     check_mysql_connection
     
@@ -89,30 +91,37 @@ clone() {
     check_db_exist
     check_vhosts_exist
     
+    
+    # Checks OK
     # Start cloning
     clear
     echo -e "${warning}${NL}Cloning install: $installname into $sitename ${NL}This may take a minute ...${end}"
     
     git_clone
+    install_wpcore
     setup_database
+    add_config_files
     
     # Check if the site is a multisite and create variables
     if [ $($mysql_path -u$sqluser -p$sqlpass -D $sitename -h localhost -sse "SELECT count(*) FROM wp_blogs;" 2>/dev/null ) -gt 0 2>/dev/null ]; then
         multisite=true
-    else
-        multisite=false
-    fi
-    
-    install_wpcore
-    
-    if [ "$multisite" = true ] ; then
         setup_multisite
     else
+        multisite=false
         replace_urls
     fi
     
+    # Add multisite data to config.
+    # If site is not multisite, multisite will equal to false
+    if [ "$multisite" = true ] ; then
+        echo "multisite=true"                          >> $devkit_conf
+        echo "main_ms_domain=$main_ms_domain"          >> $devkit_conf
+        echo "new_ms_domains=(${new_ms_domains[@]})"   >> $devkit_conf
+    else
+        echo "multisite=false"                         >> $devkit_conf
+    fi
+    
     add_htaccess
-    add_config_file
     git_commit
     
     if [ "$multisite" = false ] ; then
