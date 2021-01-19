@@ -71,6 +71,9 @@ if [ "$setup" == "false" ] || [ "$1" == "setup" ] ; then
     elif [ "$1" == "clone" ] ; then
     clone $2
     
+    elif [ "$1" == "remove" ] ; then
+    remove
+    
     elif [ "$1" == "db" ] || [ "$1" == "database" ] ; then
     database $2
     

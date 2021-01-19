@@ -52,10 +52,6 @@ fetch_database() {
             : #Do nothing
         done
         
-        # Export the database again so we can modify it further
-        rm mysql.sql
-        $mysqldump_path -u$sqluser -p$sqlpass $sitename > mysql.sql 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
-        
         # Replace domains
         index=0
         for domain in "${domains_sorted[@]}"; do
