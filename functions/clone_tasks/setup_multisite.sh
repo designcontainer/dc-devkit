@@ -71,8 +71,8 @@ setup_multisite() {
 
         # Add vhost
         echo '<VirtualHost *:80>'                                   >> $vhosts_conf
-        echo 'ServerName '$new_domain                               >> $vhosts_conf
-        echo 'DocumentRoot "'$PWD'"'                                >> $vhosts_conf
+        echo '    ServerName '$new_domain                           >> $vhosts_conf
+        echo '    DocumentRoot "'$PWD'"'                            >> $vhosts_conf
         echo '    <Directory "'$PWD'">'                             >> $vhosts_conf
         echo '        Options FollowSymLinks'                       >> $vhosts_conf
         echo '        AllowOverride None'                           >> $vhosts_conf
