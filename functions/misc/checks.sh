@@ -80,3 +80,11 @@ check_wp_cli_installed() {
         exit 1
     fi
 }
+
+check_site_removable() {
+    # Check if the site is removable
+    if [ ! -n "$removable" ] || [ $removable == "false" ] ; then
+        echo -e "${error}ERROR! Devkit cannot remove this site.${end}"
+        exit 1
+    fi
+}

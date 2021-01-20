@@ -2,6 +2,7 @@ remove() {
     # Checks
     check_mysql_connection
     check_conf_exist
+    check_site_removable
     check_confirmation_question "Are you sure you want to remove this site from your computer?(y/n)"
     
     # Remove Vhosts

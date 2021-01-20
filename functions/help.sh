@@ -17,6 +17,7 @@ Development:
     ${cmd}new <site name>${end}                     Create a blank Wordpress install with DC skeleton theme
     ${cmd}clone <wpe install name>${end}            Clone a new site from WP Engine
     ${cmd}db, database <arg>${end}                  Fetch or export databases
+    ${cmd}remove${end}                              Remove site from computer. Includes files, vhosts and database
 
 Server:
     ${cmd}mamp${end}                                Restarts MAMP, <help, -h> to see args
