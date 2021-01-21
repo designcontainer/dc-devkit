@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Meta
-version="0.19.1"
+version="0.19.2"
 prefix="dev"
 
 # vars
@@ -51,7 +51,7 @@ source $config
 if [ "$setup" == "false" ] || [ "$1" == "setup" ] ; then
     setup $2
     
-    elif [ "$1" == "" ] || [ "$1" == "-h" ] || [ "$1" == "help" ] ; then
+    elif [ "$1" == "" ] || [ "$1" == "-h" ] || [ "$1" == "--help" ] ; then
     help
     
     elif [ "$1" == "-v" ] || [ "$1" == "version" ] ; then

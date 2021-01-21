@@ -1,7 +1,7 @@
 wpe() {
     check_conf_exist
     
-    if [ "$1" == "-h" ] || [ "$1" == "help" ] ; then
+    if [ "$1" == "-h" ] || [ "$1" == "--help" ] ; then
         clear
         echo -e "
 Usage:
