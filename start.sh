@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Meta
-version="0.18.0"
+version="0.18.1"
 prefix="dev"
 
 # vars
@@ -41,9 +41,10 @@ done
 
 # Check if config file has been created
 if [ ! -f "$config" ]; then
-    echo 'setup="false"' > $config
-    echo 'sqluser="root"' >> $config
-    echo 'sqlpass="root"' >> $config
+    echo 'setup="false"'         > $config
+    echo 'sqluser="root"'       >> $config
+    echo 'sqlpass="root"'       >> $config
+    echo 'sqlhost="localhost"'  >> $config
     setup
 fi
 
