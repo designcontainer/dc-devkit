@@ -29,6 +29,6 @@ Update:
     ${cmd}update${end}                              Updates site cloner to latest version
 
 Configuration:
-    ${cmd}setup${end}                               Re-runs the setup wizard
+    ${cmd}setup${end}                               Re-runs the setup wizard. Flags: --reset (fixes corrupted conf file)
     "
 }
