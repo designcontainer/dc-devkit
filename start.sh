@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Meta
-version="0.18.2"
+version="0.19.0"
 prefix="dev"
 
 # vars
@@ -41,10 +41,7 @@ done
 
 # Check if config file has been created
 if [ ! -f "$config" ]; then
-    echo 'setup="false"'         > $config
-    echo 'sqluser="root"'       >> $config
-    echo 'sqlpass="root"'       >> $config
-    echo 'sqlhost="localhost"'  >> $config
+    config_template
     setup
 fi
 
@@ -52,7 +49,7 @@ source $config
 
 # Function call
 if [ "$setup" == "false" ] || [ "$1" == "setup" ] ; then
-    setup
+    setup $2
     
     elif [ "$1" == "" ] || [ "$1" == "-h" ] || [ "$1" == "help" ] ; then
     help

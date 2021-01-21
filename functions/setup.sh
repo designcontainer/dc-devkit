@@ -1,4 +1,8 @@
 setup() {
+    if [ -n "$1" ] && [[ $1 == "--reset" ]]; then
+        config_template
+    fi
+
     greeting
     echo -e "
     ${warning}Web Devkit setup wizard${end}${NL}You have to complete this setup wizard in order to use site cloner."
