@@ -17,6 +17,10 @@ setup() {
     read -e sqlpassinput
     sed -i .old '/sqlpass/ s/="[^"][^"]*"/="'${sqlpassinput}'"/' $config
     
+    echo -e "${NL}SQL host:"
+    read -e sqlhostinput
+    sed -i .old '/sqlhost/ s/="[^"][^"]*"/="'${sqlhostinput}'"/' $config
+    
     # Marks setup ad complete
     sed -i .old '/setup/ s/="[^"][^"]*"/="true"/' $config
     rm $config.old
