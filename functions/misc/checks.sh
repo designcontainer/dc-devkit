@@ -39,7 +39,6 @@ check_access_ssh() {
 
 check_access_git() {
     # Check if you have access to git repo
-    giturl="git@git.wpengine.com:production/$installname.git"
     git-remote-url-reachable() {
         git ls-remote "$1" CHECK_GIT_REMOTE_URL_REACHABILITY >/dev/null 2>&1
     }

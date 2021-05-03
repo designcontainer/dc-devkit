@@ -22,6 +22,9 @@ clone() {
         echo -e "${cmd}Enter the WP Engine install name to get started:${end}"
         read -e installname
     fi
+
+    # Set the github url
+    set_git_url
     
     # Start some checks for choice of installname
     echo -e "${warning}Verifying permissions ...${NL}This will only take a couple of seconds.${end}"
