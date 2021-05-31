@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Meta
-version="0.21.0"
+version="0.21.1"
 prefix="dev"
 
 # vars
@@ -93,11 +93,11 @@ if [ "$setup" == "false" ] || [ "$1" == "setup" ] ; then
     elif [ "$1" == "phpmyadmin" ] ; then
     open http://localhost/phpmyadmin
     
-    elif [ "$1" == "testfile" ] ; then
-    testfile
-    
     elif [ "$1" == "ssh" ] ; then
     connect_ssh
+    
+    elif [ "$1" == "testfile" ] ; then
+    testfile
     
 else
     echo -e "${error}Command not found.${NL}${end}Try ${prefix} help"
