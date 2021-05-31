@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Meta
-version="0.20.0"
+version="0.21.0"
 prefix="dev"
 
 # vars
@@ -95,6 +95,9 @@ if [ "$setup" == "false" ] || [ "$1" == "setup" ] ; then
     
     elif [ "$1" == "testfile" ] ; then
     testfile
+    
+    elif [ "$1" == "ssh" ] ; then
+    connect_ssh
     
 else
     echo -e "${error}Command not found.${NL}${end}Try ${prefix} help"
