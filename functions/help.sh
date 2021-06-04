@@ -27,7 +27,7 @@ Server:
     ${cmd}phpmyadmin${end}                          Opens local phpmyadmin
 
 WP Engine:
-    ${cmd}backup${end}                              Create a new backup on WP Engine
+    ${cmd}backup <message>${end}                    Create a new backup on WP Engine
     ${cmd}cache${end}                               Purge cache for WP Engine install
 
 Update:
