@@ -13,6 +13,5 @@ backup() {
     # Remove temp file
     rm $file
     
-    echo ""
-    echo -e "${success}Backup requested!${end}"
+    echo -e "${NL}${success}Backup requested!${end}"
 }

@@ -25,6 +25,10 @@ Server:
     ${cmd}vhosts${end}                              Opens virtual hosts file
     ${cmd}phpmyadmin${end}                          Opens local phpmyadmin
 
+WP Engine:
+    ${cmd}backup${end}                              Create a new backup on WP Engine
+    ${cmd}cache${end}                               Purge cache for WP Engine install
+
 Update:
     ${cmd}update${end}                              Updates site cloner to latest version
 
