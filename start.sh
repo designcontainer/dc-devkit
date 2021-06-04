@@ -97,7 +97,7 @@ if [ "$setup" == "false" ] || [ "$1" == "setup" ] ; then
     connect_ssh
     
     elif [ "$1" == "backup" ] ; then
-    backup
+    backup $2
     
     elif [ "$1" == "cache" ] ; then
     cache
