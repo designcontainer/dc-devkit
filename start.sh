@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Meta
-version="0.21.1"
+version="0.22.0"
 prefix="dev"
 
 # vars
@@ -95,6 +95,9 @@ if [ "$setup" == "false" ] || [ "$1" == "setup" ] ; then
     
     elif [ "$1" == "ssh" ] ; then
     connect_ssh
+    
+    elif [ "$1" == "backup" ] ; then
+    backup
     
     elif [ "$1" == "testfile" ] ; then
     testfile
