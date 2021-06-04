@@ -18,6 +18,7 @@ Development:
     ${cmd}clone <wpe install name>${end}            Clone a new site from WP Engine
     ${cmd}db, database <arg>${end}                  Fetch or export databases. (-h, --help forargs)
     ${cmd}remove${end}                              Remove site from computer. Includes files, vhosts and database
+    ${cmd}ssh${end}                                 Connect to the installs SSH server
 
 Server:
     ${cmd}mamp${end}                                Restarts MAMP. (-h, --help forargs)
