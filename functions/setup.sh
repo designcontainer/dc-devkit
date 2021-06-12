@@ -14,7 +14,7 @@ setup() {
         ;;
         
         /bin/zsh)
-            shell_profile_path="/Users/$USER/.zshenv"
+            shell_profile_path="/Users/$USER/.zshrc"
         ;;
     esac
     
