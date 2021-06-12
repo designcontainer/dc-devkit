@@ -8,20 +8,17 @@ setup() {
     ${warning}Web Devkit setup wizard${end}${NL}You have to complete this setup wizard in order to use site cloner."
     
     # Adds an alias
-    case $0 in
-        
-        -bash)
+    case $SHELL in
+        /bin/bash)
             shell_profile_path="/Users/$USER/.bash_profile"
         ;;
         
-        -zsh)
-            shell_profile_path="/Users/$USER/.bash_profile"
-        ;;
-        
-        *)
-            shell_profile_path="/Users/$USER/.bash_profile"
+        /bin/zsh)
+            shell_profile_path="/Users/$USER/.zshenv"
         ;;
     esac
+    
+    echo $shell_profile_path
     
     if ! grep -qF "alias $prefix" $shell_profile_path ; then
         printf "${NL}alias $prefix=\"bash $scriptpath/start.sh\"" >> $shell_profile_path
