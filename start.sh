@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Meta
-version="0.23.1"
+version="0.23.2"
 prefix="dev"
 
 # vars

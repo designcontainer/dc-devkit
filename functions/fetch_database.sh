@@ -24,7 +24,7 @@ fetch_database() {
     $mysql_path -u$sqluser -p$sqlpass -e "CREATE DATABASE $sitename" 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
     
     # Import database
-    $mysql_path -u$sqluser -p$sqlpass $sitename < mysql.sql 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
+    $mysql_path -u$sqluser -p$sqlpass -f -D $sitename < mysql.sql 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
     
     # Replace https with http
     wp search-replace "https://" "http://" --all-tables --precise --quiet > /dev/null 2>&1
