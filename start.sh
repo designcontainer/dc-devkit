@@ -102,6 +102,9 @@ if [ "$setup" == "false" ] || [ "$1" == "setup" ] ; then
     elif [ "$1" == "cache" ] ; then
     cache
     
+    elif [ "$1" == "github" ] ; then
+    github
+    
     elif [ "$1" == "testfile" ] ; then
     testfile
     
