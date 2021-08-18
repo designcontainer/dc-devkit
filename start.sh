@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Meta
-version="0.24.0"
+version="0.24.1"
 prefix="dev"
 
 # vars
@@ -101,6 +101,9 @@ if [ "$setup" == "false" ] || [ "$1" == "setup" ] ; then
     
     elif [ "$1" == "cache" ] ; then
     cache
+    
+    elif [ "$1" == "github" ] || [ "$1" == "gh" ] ; then
+    github
     
     elif [ "$1" == "testfile" ] ; then
     testfile
