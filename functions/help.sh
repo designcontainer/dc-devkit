@@ -12,6 +12,7 @@ Basic commands:
     ${cmd}-o, open${end}                            Opens site in browser from folder
     ${cmd}-w, wpe <page>${end}                      Open WP Engine panel for site. (-h, --help forargs)
     ${cmd}-t, test${end}                            Test if site is devkit ready
+    ${cmd}github, gh${end}                          Open github site repo in browser
 
 Development:
     ${cmd}new <site name>${end}                     Create a blank Wordpress install with DC skeleton theme
