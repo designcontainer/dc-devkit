@@ -20,6 +20,7 @@ Development:
     ${cmd}db, database <arg>${end}                  Fetch or export databases. (-h, --help forargs)
     ${cmd}remove${end}                              Remove site from computer. Includes files, vhosts and database
     ${cmd}ssh${end}                                 Connect to the installs SSH server
+    ${cmd}debug${end}                               Get and output the debug.log on the server
 
 Server:
     ${cmd}mamp${end}                                Restarts MAMP. (-h, --help forargs)
