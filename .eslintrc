@@ -1,0 +1,10 @@
+{
+	"extends": [
+		"oclif",
+		"oclif-typescript"
+	],
+	"rules": {
+		"eqeqeq": "warn",
+		"strict": "off"
+	}
+}
