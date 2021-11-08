@@ -1,1 +1,3 @@
-export {run} from '@oclif/command'
+import {Command} from 'commander'
+
+const program = new Command()

@@ -1,14 +1,15 @@
 {
 	"compilerOptions": {
-		"declaration": true,
-		"importHelpers": true,
-		"module": "commonjs",
-		"outDir": "lib",
-		"rootDir": "src",
+		"outDir": "./bin/",
+		"target": "es5",
+		"module": "es6",
+		"rootDir": "./src",
+		"moduleResolution": "Node",
+		"esModuleInterop": true,
+        "lib": ["es2015", "dom"],
+        "allowJs": true,
+		"forceConsistentCasingInFileNames": true,
 		"strict": true,
-		"target": "es2017"
-	},
-	"include": [
-		"src/**/*"
-  ]
+		"skipLibCheck": true
+	}
 }

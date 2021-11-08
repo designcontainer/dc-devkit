@@ -1,1 +1,0 @@
-{"version":"0.0.0","commands":{"github":{"id":"github","description":"describe the command here","pluginName":"dc-devkit","pluginType":"core","aliases":[],"examples":["$ dev github","$ dev gh"],"flags":{},"args":[{"name":"file"}]}}}
