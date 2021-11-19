@@ -4,12 +4,12 @@ module.exports = {
     entry: {
         dev: {import: './src/index.ts'},
     },
-    mode: 'production',
+    mode: 'development',
     watch: true,
     module: {
         rules: [
             {
-                test: /\.ts$/,
+                test: /\.ts$|.js$/,
                 use: 'ts-loader',
                 exclude: /node_modules/,
             },
@@ -20,8 +20,8 @@ module.exports = {
     },
     output: {
         filename: '[name].js',
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'bin'),
         libraryTarget: 'umd',
-        library: 'dcutil',
+        library: 'dc-devkit',
     },
 };
