@@ -27,7 +27,6 @@ program.command('update')
     .action(update_1.default);
 program.command('clone <install>')
     .description('clone devkit')
-    // .option('-i, --install <install>', 'undefined')
     .action(clone_1.default);
 program.command('db')
     .description('get or dump database')

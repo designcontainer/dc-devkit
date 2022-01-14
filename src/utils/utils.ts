@@ -39,6 +39,9 @@ export async function searchFile(fileName: string, needle: string): Promise<bool
 /**
  * Console logs `message` if `verbose` is set to `true`
  */
-export function log(message: string | object | Array<any>, verbose: boolean = true) {
+export function log(
+	message: string | object | Array<any>,
+	verbose: boolean = true
+) {
 	if (verbose) console.log(message);
 }

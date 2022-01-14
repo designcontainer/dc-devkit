@@ -71,13 +71,10 @@ async function installNewWpCore(installPath: string): Promise<boolean> {
 	await unlink(coreZip);
 	const coreFolder = path.join(installPath, 'wordpress');
 
-	// Delete the wp-content folder.
 	await remove(path.join(coreFolder, 'wp-content'));
 
-	// Copy contents of coreFolder to wordpressPath
 	await copy(coreFolder, installPath);
 
-	// Delete the coreFolder
 	await remove(coreFolder);
 	return true;
 };
@@ -92,15 +89,12 @@ async function installNewWpCore(installPath: string): Promise<boolean> {
 async function getDatabaseDump(conn: NodeSSH, installName: string): Promise<void> {
 	const installPath = path.join('.', installName);
 
-	// Export db on live server
 	log('Exporting db dump');
 	await conn.exec(`wp db export sites/${installName}/dump.sql >/dev/null 2>&1`, []);
 
-	// Get the db dump and put it in our install folder
 	log('Getting dump');
 	await exec(`rsync -e "ssh" ${installName}@${installName}.ssh.wpengine.net:/sites/${installName}/dump.sql ${installPath}/dump.sql`);
 
-	// Delete the db dump from lvie server
 	log('Deleting dump from server');
 	await conn.exec(`rm -rf sites/${installName}/dump.sql`, []);
 
@@ -115,6 +109,7 @@ async function getDatabaseDump(conn: NodeSSH, installName: string): Promise<void
  */
 async function setupDatabase(installName: string): Promise<void> {
 	const ssh: NodeSSH = new NodeSSH();
+	const MySQLPath = '/Applications/MAMP/Library/bin/mysql';
 	const SQLUser = 'root';
 	const SQLPass = 'root';
 
@@ -133,17 +128,12 @@ async function setupDatabase(installName: string): Promise<void> {
 	// Export and get the DB dump from live server
 	await getDatabaseDump(conn, installName);
 
-	const MySQLPath = '/Applications/MAMP/Library/bin/mysql';
-
-	// Create a new database
 	log('Creating database');
 	await exec(`${MySQLPath} -u${SQLUser} -p${SQLPass} -e "CREATE DATABASE ${installName}"`);
 
-	// Import database
 	log('Importing database');
 	await exec(`${MySQLPath} -u${SQLUser} -p${SQLPass} -f -D ${installName} < ./${installName}/dump.sql`);
 
-	// Delete database dump from install directory
 	log('Deleting database dump from install directory');
 	await exec(`rm ${path.join('./', installName, 'dump.sql')}`);
 
@@ -188,10 +178,9 @@ async function clone(installName: string): Promise<void> {
 		if (await databaseExists(installName)) throw new Error('Database already exists');
 	} catch(err) {
 		console.error(err);
-		return;
+		process.exitCode = 1;
 	}
 
-	// Clone the repo
 	log('Cloning repo');
 	await git.clone(
 		`https://github.com/designcontainer/${installName}`, `./${installName}`
@@ -199,18 +188,13 @@ async function clone(installName: string): Promise<void> {
 		throw new Error(err);
 	});
 
-	// Install WP core (Will only install new one if there isn't a WP core in the repo)
 	await installNewWpCore(`./${installName}`);
-
-	// Export the database from live server and copy it to the install folder
 	await setupDatabase(installName);
-
 	await configureVHosts(installName);
 
 	log('Site is set up!');
 
-	// Quit
-	process.exit(0);
+	process.exitCode = 0;
 }
 
 export default clone;

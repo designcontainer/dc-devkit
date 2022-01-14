@@ -149,20 +149,14 @@ function installNewWpCore(installPath) {
                 case 4:
                     _a.sent();
                     coreFolder = path_1.default.join(installPath, 'wordpress');
-                    // Delete the wp-content folder.
                     return [4 /*yield*/, (0, utils_1.remove)(path_1.default.join(coreFolder, 'wp-content'))];
                 case 5:
-                    // Delete the wp-content folder.
                     _a.sent();
-                    // Copy contents of coreFolder to wordpressPath
                     return [4 /*yield*/, (0, utils_1.copy)(coreFolder, installPath)];
                 case 6:
-                    // Copy contents of coreFolder to wordpressPath
                     _a.sent();
-                    // Delete the coreFolder
                     return [4 /*yield*/, (0, utils_1.remove)(coreFolder)];
                 case 7:
-                    // Delete the coreFolder
                     _a.sent();
                     return [2 /*return*/, true];
             }
@@ -184,17 +178,14 @@ function getDatabaseDump(conn, installName) {
             switch (_a.label) {
                 case 0:
                     installPath = path_1.default.join('.', installName);
-                    // Export db on live server
                     (0, utils_1.log)('Exporting db dump');
                     return [4 /*yield*/, conn.exec("wp db export sites/" + installName + "/dump.sql >/dev/null 2>&1", [])];
                 case 1:
                     _a.sent();
-                    // Get the db dump and put it in our install folder
                     (0, utils_1.log)('Getting dump');
                     return [4 /*yield*/, (0, utils_1.exec)("rsync -e \"ssh\" " + installName + "@" + installName + ".ssh.wpengine.net:/sites/" + installName + "/dump.sql " + installPath + "/dump.sql")];
                 case 2:
                     _a.sent();
-                    // Delete the db dump from lvie server
                     (0, utils_1.log)('Deleting dump from server');
                     return [4 /*yield*/, conn.exec("rm -rf sites/" + installName + "/dump.sql", [])];
                 case 3:
@@ -213,11 +204,12 @@ function getDatabaseDump(conn, installName) {
  */
 function setupDatabase(installName) {
     return __awaiter(this, void 0, void 0, function () {
-        var ssh, SQLUser, SQLPass, privateKey, conn, MySQLPath;
+        var ssh, MySQLPath, SQLUser, SQLPass, privateKey, conn;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     ssh = new node_ssh_1.NodeSSH();
+                    MySQLPath = '/Applications/MAMP/Library/bin/mysql';
                     SQLUser = 'root';
                     SQLPass = 'root';
                     return [4 /*yield*/, (0, utils_1.readFile)(path_1.default.join(homedir, '/.ssh/id_rsa')).then(function (res) {
@@ -238,18 +230,14 @@ function setupDatabase(installName) {
                 case 3:
                     // Export and get the DB dump from live server
                     _a.sent();
-                    MySQLPath = '/Applications/MAMP/Library/bin/mysql';
-                    // Create a new database
                     (0, utils_1.log)('Creating database');
-                    return [4 /*yield*/, (0, utils_1.exec)(MySQLPath + " -u" + SQLUser + " -p" + SQLPass + " -e \"CREATE DATABASE " + installName + "\"" /* 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."` */)];
+                    return [4 /*yield*/, (0, utils_1.exec)(MySQLPath + " -u" + SQLUser + " -p" + SQLPass + " -e \"CREATE DATABASE " + installName + "\"")];
                 case 4:
                     _a.sent();
-                    // Import database
                     (0, utils_1.log)('Importing database');
-                    return [4 /*yield*/, (0, utils_1.exec)(MySQLPath + " -u" + SQLUser + " -p" + SQLPass + " -f -D " + installName + " < ./" + installName + "/dump.sql" /* 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."` */)];
+                    return [4 /*yield*/, (0, utils_1.exec)(MySQLPath + " -u" + SQLUser + " -p" + SQLPass + " -f -D " + installName + " < ./" + installName + "/dump.sql")];
                 case 5:
                     _a.sent();
-                    // Delete database dump from install directory
                     (0, utils_1.log)('Deleting database dump from install directory');
                     return [4 /*yield*/, (0, utils_1.exec)("rm " + path_1.default.join('./', installName, 'dump.sql'))];
                 case 6:
@@ -265,13 +253,13 @@ function configureVHosts(installName) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    (0, utils_1.log)({ installName: installName });
                     vHostsFile = "/Applications/MAMP/conf/apache/extra/httpd-vhosts.conf";
                     // Check if install exists in hosts file
                     (0, utils_1.log)("Checking if vhosts entry for " + installName + " exists");
                     return [4 /*yield*/, (0, utils_1.searchFile)(vHostsFile, "ServerName " + installName + ".test")];
                 case 1:
                     if (!(_a.sent())) {
+                        (0, utils_1.log)("Adding " + installName + " entry to vhosts file");
                         // TODO: Append install to vhosts file
                         return [2 /*return*/];
                     }
@@ -308,31 +296,26 @@ function clone(installName) {
                 case 2:
                     err_1 = _a.sent();
                     console.error(err_1);
-                    return [2 /*return*/];
+                    process.exitCode = 1;
+                    return [3 /*break*/, 3];
                 case 3:
-                    // Clone the repo
                     (0, utils_1.log)('Cloning repo');
                     return [4 /*yield*/, git.clone("https://github.com/designcontainer/" + installName, "./" + installName).catch(function (err) {
                             throw new Error(err);
                         })];
                 case 4:
                     _a.sent();
-                    // Install WP core (Will only install new one if there isn't a WP core in the repo)
                     return [4 /*yield*/, installNewWpCore("./" + installName)];
                 case 5:
-                    // Install WP core (Will only install new one if there isn't a WP core in the repo)
                     _a.sent();
-                    // Export the database from live server and copy it to the install folder
                     return [4 /*yield*/, setupDatabase(installName)];
                 case 6:
-                    // Export the database from live server and copy it to the install folder
                     _a.sent();
                     return [4 /*yield*/, configureVHosts(installName)];
                 case 7:
                     _a.sent();
                     (0, utils_1.log)('Site is set up!');
-                    // Quit
-                    process.exit(0);
+                    process.exitCode = 0;
                     return [2 /*return*/];
             }
         });

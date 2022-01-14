@@ -27,7 +27,6 @@ program.command('update')
 
 program.command('clone <install>')
 	.description('clone devkit')
-	// .option('-i, --install <install>', 'undefined')
 	.action(clone)
 
 program.command('db')
