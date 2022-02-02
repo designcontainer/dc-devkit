@@ -20,7 +20,7 @@ If you have a separate personal and a business github account on your computer, 
 `ssh-keygen -t rsa -b 4096 -f ~/.ssh/dc_github_rsa`
 Leave password blank
 Once the process has completed, run the following to print the contents of the new key file:
-`cat .ssh/wpengine_rsa.pub`
+`cat .ssh/dc_github_rsa.pub`
 Copy the ssh key and save it on Github
 
 2. Create an SSH config file if you don't have one
