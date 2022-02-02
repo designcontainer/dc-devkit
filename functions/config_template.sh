@@ -3,5 +3,7 @@ config_template() {
     echo 'sqluser="root"'       >> $config
     echo 'sqlpass="root"'       >> $config
     echo 'sqlhost="localhost"'  >> $config
-	echo 'githubSHH="false"'    >> $config
+	echo 'gitSSHId="false"'     >> $config
+	echo 'gitusername="false"'  >> $config
+	echo 'gitemail="false"'     >> $config
 }

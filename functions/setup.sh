@@ -42,10 +42,6 @@ setup() {
 	read -e sqlhostinput
 	sed -i .old '/sqlhost/ s/="[^"][^"]*"/="'${sqlhostinput}'"/' $config
 
-	echo -e "${NL}Github SHH Config key (optional):"
-	read -e gitshhinput
-	sed -i .old '/gitSSHhost/ s/="[^"][^"]*"/="'${gitshhinput}'"/' $config
-
 	echo -e "WP Engine API username:"
 	read -e wpeuserinput
 	sed -i .old '/wpeuser/ s/="[^"][^"]*"/="'${wpeuserinput}'"/' $config
@@ -53,6 +49,28 @@ setup() {
 	echo -e "${NL}WP Engine API password:"
 	read -e wpepassinput
 	sed -i .old '/wpepass/ s/="[^"][^"]*"/="'${wpepassinput}'"/' $config
+
+
+	while true; do
+		read -p "Would you like to set a github account? (optional) [y/n]:" yn
+		case $yn in
+			[Yy]* )
+				echo -e "${NL}Github Username:"
+				read -e gitusername
+				sed -i .old '/gitusername/ s/="[^"][^"]*"/="'${gitusername}'"/' $config
+
+				echo -e "${NL}Github E-mail:"
+				read -e gitemail
+				sed -i .old '/gitemail/ s/="[^"][^"]*"/="'${gitemail}'"/' $config
+
+				echo -e "${NL}Github SHH Config key:"
+				read -e gitshhinput
+				sed -i .old '/gitSSHId/ s/="[^"][^"]*"/="'${gitshhinput}'"/' $config
+			break;;
+			[Nn]* ) exit;;
+			* ) echo "Please answer yes or no.";;
+		esac
+	done
 
 	# Marks setup ad complete
 	sed -i .old '/setup/ s/="[^"][^"]*"/="true"/' $config
