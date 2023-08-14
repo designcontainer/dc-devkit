@@ -9,6 +9,16 @@ check_confirmation_question() {
     fi
 }
 
+confirm_with_install_name() {
+    clear
+    echo -e "${error}$1${end}"
+    read -e question
+    if [ ! "$question" == $installname ] ; then
+        exit 1
+    fi
+}
+
+
 check_mysql_connection() {
     $mysqladmin_path -h localhost -u$sqluser -p$sqlpass processlist > /dev/null 2>&1
     if [ $? -eq 1 ] ; then

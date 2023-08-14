@@ -3,7 +3,8 @@ remove() {
     check_mysql_connection
     check_conf_exist
     check_site_removable
-    check_confirmation_question "Are you sure you want to remove this site from your computer?(y/n)"
+    confirm_with_install_name "Are you sure you want to remove this site from your computer? type the install name to confirm: "
+
     
     # Remove Vhosts
     match="${PWD%/}/.devkit/vhosts.conf"
