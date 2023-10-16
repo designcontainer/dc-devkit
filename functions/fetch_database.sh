@@ -66,7 +66,8 @@ fetch_database() {
         $mysql_path -N -u$sqluser -p$sqlpass -D $sitename -h localhost -e "UPDATE wp_options SET option_value = 'http://$sitename.test' WHERE option_name = 'home' OR option_name = 'siteurl'" 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
     fi
     
-    rm mysql.sql
+    rm *.sql
+    find . -name "*.sql" -type f -delete
     
     clear
     echo -e "${success}✅ New database imported${end}"
