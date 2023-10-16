@@ -21,5 +21,6 @@ SELECT CONCAT( 'DROP TABLE ', GROUP_CONCAT(table_name) , ';' )
     $mysql_path -N -u$sqluser -p$sqlpass -D $sitename -h localhost -e "$drop_swp_statement" 2>/dev/null | grep -v "mysql: [Warning] Using a password on the command line interface can be insecure."
     
     # Delete the sql file from site folder
-    rm mysql.sql
+    rm *.sql
+    find . -name "*.sql" -type f -delete
 }

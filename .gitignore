@@ -2,3 +2,4 @@
 config.conf
 config.conf.old
 testfile.sh
+*.sql
