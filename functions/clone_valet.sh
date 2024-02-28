@@ -1,12 +1,9 @@
-clone() {
+clone_valet() {
     # Vars
     clone_tasks="$(dirname $0)/functions/clone_tasks"
-
     
-    # Tasks
     for file in $clone_tasks/*.sh ; do
-        if [ -f "$file" ] && [[ $(basename $file) != "add_valet_local_driver.sh" ]] && [[ $(basename $file) != "valet_setup_multisite.sh" ]];
-        then
+        if [ -f "$file" ] && [[ $(basename $file) != "add_host.sh" ]] && [[ $(basename $file) != "add_vhost.sh" ]] && [[ $(basename $file) != "add_vhost.sh" ]] ; then
             . "$file"
         fi
     done
@@ -30,6 +27,7 @@ clone() {
     
     # Start some checks for choice of installname
     echo -e "${warning}Verifying permissions ...${NL}This will only take a couple of seconds.${end}"
+    echo -e "${warning}If you get password prompt multiple times, most likely your mysql user has no password. It's reccomended to set it.${end}"
     check_access_ssh
     check_access_git
     check_empty_git_repo
@@ -67,7 +65,13 @@ clone() {
             clear
             exit 1
         fi
-        db_check=$($mysqlshow_path -u$sqluser -p$sqlpass "$sitename" > /dev/null 2>&1 && echo exists 2>&1)
+        
+        if [ -z "$sqlpass" ]; then
+            db_check=$($mysqlshow_path -u$sqluser "$sitename" > /dev/null 2>&1 && echo exists 2>&1)
+        else
+            db_check=$($mysqlshow_path -u$sqluser -p$sqlpass "$sitename" > /dev/null 2>&1 && echo exists 2>&1)
+        fi
+        
         if [[ $db_check == exists ]]; then
             echo -e "${error}Database is already in use for this name.${NL}Please choose another local install name:${end}"
             read -e sitename
@@ -106,6 +110,7 @@ clone() {
     install_wpcore
     setup_database
     add_config_files
+    add_valet_local_driver
     
     # Check if the site is a multisite and create variables
     if [ $($mysql_path -u$sqluser -p$sqlpass -D $sitename -h localhost -sse "SELECT count(*) FROM wp_blogs;" 2>/dev/null ) -gt 0 2>/dev/null ]; then
@@ -127,18 +132,14 @@ clone() {
     fi
     
     add_htaccess
+
     git_commit
     
-    if [ "$multisite" = false ] ; then
-        # We set these in function setup_multisite if the site is a multisite
-        add_vhost
-        add_host
-    fi
-    
-    # Restart MAMP Apache
-    if [ -d "/Applications/MAMP" ]; then
-        sudo /Applications/MAMP/Library/bin/apachectl -k restart >/dev/null 2>&1
-    fi
+    # if [ "$multisite" = false ] ; then
+    #     # We set these in function setup_multisite if the site is a multisite
+    #     add_vhost
+    #     add_host
+    # fi
     
     # Comma separated list of mu domains
     if [ "$multisite" = true ] ; then
@@ -148,6 +149,18 @@ clone() {
             domain="http://$domain"
             joined_domains="$joined_domains$delim$domain"
             delim="\n"
+        done
+    fi
+
+    # valet secure if not multisite
+    if [ "$multisite" = false ] ; then
+        valet secure
+    fi
+
+    # valet secure all domains if multisite
+    if [ "$multisite" = true ] ; then
+        for domain in "${new_ms_domains[@]}"; do
+            valet secure $domain
         done
     fi
     

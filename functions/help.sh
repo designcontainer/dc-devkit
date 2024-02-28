@@ -16,7 +16,8 @@ Basic commands:
 
 Development:
     ${cmd}new <site name>${end}                     Create a blank Wordpress install with DC skeleton theme
-    ${cmd}clone <wpe install name>${end}            Clone a new site from WP Engine
+    ${cmd}clone <wpe install name>${end}            Clone a new site from WP Engine with MAMP
+    ${cmd}valet <wpe install name>${end}            Clone a new site from WP Engine with Valet
     ${cmd}db, database <arg>${end}                  Fetch or export databases. (-h, --help forargs)
     ${cmd}remove${end}                              Remove site from computer. Includes files, vhosts and database
     ${cmd}ssh${end}                                 Connect to the installs SSH server

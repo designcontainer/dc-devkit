@@ -47,6 +47,35 @@ setup() {
     echo -e "${NL}WP Engine API password:"
     read -e wpepassinput
     sed -i .old '/wpepass/ s/="[^"][^"]*"/="'${wpepassinput}'"/' $config
+
+    echo -e "${NL}Please provide the path to your MySQL and Mysqldump executables. If you are using MAMP, the default path is /Applications/MAMP/Library/bin/.${NL}If you are using a different setup, please provide the path to your MySQL and Mysqldump executables."
+    echo -e "${NL}You can use the which command to find the path to your MySQL and Mysqldump executables.${NL}For example:${NL}which mysql${NL}which mysqldump${NL}which mysqlshow${NL}which mysqladmin"
+    
+    which mysql
+    which mysqldump
+    which mysqlshow
+    which mysqladmin
+
+
+    # ask for mysql path
+    echo -e "${NL}MySQL path:"
+    read -e mysql_path
+    sed -i .old '/mysql_path/ s/="[^"][^"]*"/="'${mysql_path}'"/' $config
+
+    # ask for mysqldump path
+    echo -e "${NL}Mysqldump path:"
+    read -e mysqldump_path
+    sed -i .old '/mysqldump_path/ s/="[^"][^"]*"/="'${mysqldump_path}'"/' $config
+
+    # ask for mysqlshow path
+    echo -e "${NL}Mysqlshow path:"
+    read -e mysqlshow_path
+    sed -i .old '/mysqlshow_path/ s/="[^"][^"]*"/="'${mysqlshow_path}'"/' $config
+
+    # ask for mysqladmin path
+    echo -e "${NL}Mysqladmin path:"
+    read -e mysqladmin_path
+    sed -i .old '/mysqladmin_path/ s/="[^"][^"]*"/="'${mysqladmin_path}'"/' $config
     
     # Marks setup ad complete
     sed -i .old '/setup/ s/="[^"][^"]*"/="true"/' $config

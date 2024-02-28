@@ -1,17 +1,17 @@
 #!/bin/bash -e
 
 # Meta
-version="0.24.1"
+version="0.25.1"
 prefix="dev"
 
 # vars
 scriptpath="$(dirname $0)"
 functions="$(dirname $0)/functions"
 config="$scriptpath/config.conf"
-mysql_path='/Applications/MAMP/Library/bin/mysql'
-mysqldump_path='/Applications/MAMP/Library/bin/mysqldump'
-mysqlshow_path='/Applications/MAMP/Library/bin/mysqlshow'
-mysqladmin_path='/Applications/MAMP/Library/bin/mysqladmin'
+#mysql_path='/Applications/MAMP/Library/bin/mysql'
+#mysqldump_path='/Applications/MAMP/Library/bin/mysqldump'
+#mysqlshow_path='/Applications/MAMP/Library/bin/mysqlshow'
+#mysqladmin_path='/Applications/MAMP/Library/bin/mysqladmin'
 devkit_conf=".devkit/site_cloner.conf"
 vhosts_conf='.devkit/vhosts.conf'
 vhosts_path='/Applications/MAMP/conf/apache/extra/httpd-vhosts.conf'
@@ -68,6 +68,9 @@ if [ "$setup" == "false" ] || [ "$1" == "setup" ] ; then
     
     elif [ "$1" == "clone" ] ; then
     clone $2
+
+    elif [ "$1" == "valet" ] ; then
+    clone_valet $2
     
     elif [ "$1" == "remove" ] ; then
     remove
