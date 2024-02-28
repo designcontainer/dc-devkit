@@ -5,7 +5,7 @@ backup() {
     if [ -n "$1" ]; then
         message="$@"
     else
-        message="Devkit backup"
+        message="Devkit backup -- created by: $email" 
     fi
     
     echo -e "${warning}Calling WP Engine...${end}"
@@ -13,7 +13,7 @@ backup() {
     all_sites=$(curl -s -X GET "https://api.wpengineapi.com/v1/installs?limit=1000" -u $wpeuser:$wpepass)
     echo $all_sites > $file
     # Find the install id by install name in the temp json file
-    install_id=$( jq -r ".results[]  | select(.name == \"$installname\") | .id" sites.json )
+    install_id=$( jq -r ".results[]  | select(.name == \"$installname\") | .id" $file )
     # Send request to WP Engine for backup
     curl -s -X POST "https://api.wpengineapi.com/v1/installs/$install_id/backups" -H  "accept: application/json" -H  "Content-Type: application/json" -d "{  \"description\": \"$message\",  \"notification_emails\": [ \"$email\" ]}" -u $wpeuser:$wpepass
     # Remove temp file
