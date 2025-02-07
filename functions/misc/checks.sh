@@ -52,10 +52,11 @@ check_access_git() {
     git-remote-url-reachable() {
         git ls-remote "$1" CHECK_GIT_REMOTE_URL_REACHABILITY >/dev/null 2>&1
     }
+    ls
     if ! git-remote-url-reachable $giturl ; then
         clear
-        echo -e "${error}ERROR! Cannot connect to a repo using the specified site name: $installname ${NL}Make sure your SSH key is added to the install!${end}"
-        open "https://my.wpengine.com/installs/$installname/git_push"
+        echo -e "${error}ERROR! Cannot connect to a repo on $giturl using the specified site name: $installname ${NL}Make sure your SSH key is added to the repo!${end}"
+        open "https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account"
         exit 1
     fi
 }
