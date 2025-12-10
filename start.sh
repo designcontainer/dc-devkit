@@ -71,6 +71,9 @@ if [ "$setup" == "false" ] || [ "$1" == "setup" ] ; then
 
     elif [ "$1" == "valet" ] ; then
     clone_valet $2
+
+    elif [ "$1" == "copy" ] ; then
+    copy $2
     
     elif [ "$1" == "remove" ] ; then
     remove
